@@ -7,14 +7,25 @@
     android:background="#A19595"
     tools:context=".FactsFragment">
 
-    <Button
-        android:id="@+id/button2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="This is facts fragmant"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/factsFragment_all_facts_rv"
+        android:layout_width="363dp"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/factsFragment_title_tv" />
 
+    <TextView
+        android:id="@+id/factsFragment_title_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="24dp"
+        android:text="Fun facts about food"
+        android:textSize="34sp"
+        app:layout_constraintBottom_toTopOf="@+id/factsFragment_all_facts_rv"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

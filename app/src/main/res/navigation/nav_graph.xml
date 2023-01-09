@@ -24,7 +24,8 @@
         android:name="com.example.feedme.UploadRecipeFragment"
         android:label="fragment_upload_recipe"
         tools:layout="@layout/fragment_upload_recipe" />
-    <fragment
+
+<fragment
         android:id="@+id/factsFragment"
         android:name="com.example.feedme.FactsFragment"
         android:label="fragment_facts"
