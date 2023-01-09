@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/factsFragment">
+    <fragment
+        android:id="@+id/profileFragment2"
+        android:name="com.example.feedme.ProfileFragment"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile" />
+    <fragment
+        android:id="@+id/feedFragment"
+        android:name="com.example.feedme.FeedFragment"
+        android:label="fragment_feed"
+        tools:layout="@layout/fragment_feed" />
+    <fragment
+        android:id="@+id/userRecipesFragment"
+        android:name="com.example.feedme.UserRecipesFragment"
+        android:label="fragment_user_recipes"
+        tools:layout="@layout/fragment_user_recipes" />
+    <fragment
+        android:id="@+id/uploadRecipeFragment"
+        android:name="com.example.feedme.UploadRecipeFragment"
+        android:label="fragment_upload_recipe"
+        tools:layout="@layout/fragment_upload_recipe" />
+    <fragment
+        android:id="@+id/factsFragment"
+        android:name="com.example.feedme.FactsFragment"
+        android:label="fragment_facts"
+        tools:layout="@layout/fragment_facts" />
+</navigation>
