@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/feedFragment"
+        android:icon="@drawable/feed"
+        android:title="Feed" />
+    <item
+        android:id="@+id/profileFragment"
+        android:icon="@drawable/profile"
+        android:title="Profile" />
+    <item
+        android:id="@+id/uploadRecipeFragment"
+        android:icon="@drawable/upload"
+        android:title="Upload" />
+    <item
+        android:id="@+id/userRecipesFragment"
+        android:icon="@drawable/myrecipes"
+        android:title="My Recipes" />
+    <item
+        android:id="@+id/factsFragment"
+        android:icon="@drawable/facts"
+        android:title="Fun Facts" />
+</menu>
