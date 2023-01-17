@@ -9,33 +9,34 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.feedme.R;
-import com.example.feedme.models.FeedModel;
-import com.example.feedme.viewHolders.FeedViewHolder;
+import com.example.feedme.models.Recipe;
+import com.example.feedme.viewHolders.RecipeViewHolder;
 
+import java.util.LinkedList;
 import java.util.List;
 
-class FeedAdapter extends RecyclerView.Adapter<FeedViewHolder> {
-    private List<FeedModel> feeds;
+public class FeedAdapter extends RecyclerView.Adapter<RecipeViewHolder> {
+    private List<Recipe> recipes;
 
-    public FeedAdapter(List<FeedModel> feeds) {
-        this.feeds = feeds;
+    public FeedAdapter(List<Recipe> recipes) {
+        this.recipes = recipes;
     }
 
     @NonNull
     @Override
-    public FeedViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public RecipeViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.feed_item, parent, false);
-        return new FeedViewHolder(view);
+        return new RecipeViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull FeedViewHolder holder, int position) {
-        FeedModel feed = feeds.get(position);
-//        FeedViewHolder.feedTitle.setText(feed.getTitle());
+    public void onBindViewHolder(@NonNull RecipeViewHolder holder, int position) {
+        Recipe recipe = recipes.get(position);
+        holder.bind(recipe);
     }
 
     @Override
     public int getItemCount() {
-        return feeds.size();
+        return recipes.size();
     }
 }
