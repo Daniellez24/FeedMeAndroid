@@ -39,6 +39,7 @@ public class ProfileFragment extends Fragment {
         logoutBtn = view.findViewById(R.id.profileFragment_logout_btn);
         saveBtn = view.findViewById(R.id.profileFragment_save_btn);
 
+        // TODO: get firbase out to the model!!
         mAuth = FirebaseAuth.getInstance();
 
         logoutBtn.setOnClickListener((v -> {
