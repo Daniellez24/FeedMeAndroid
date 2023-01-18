@@ -1,53 +1,49 @@
-    package com.example.feedme;
+package com.example.feedme;
 
-    import android.os.Bundle;
+import android.os.Bundle;
 
-    import androidx.fragment.app.Fragment;
-    import androidx.recyclerview.widget.LinearLayoutManager;
-    import androidx.recyclerview.widget.RecyclerView;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-    import android.view.LayoutInflater;
-    import android.view.View;
-    import android.view.ViewGroup;
-    import android.widget.TextView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
 
-    import com.example.feedme.adapters.FeedAdapter;
-    import com.example.feedme.models.Recipe;
+import com.example.feedme.adapters.FeedAdapter;
+import com.example.feedme.models.Recipe;
+import com.example.feedme.viewModels.FeedViewModel;
 
-    import java.util.LinkedList;
-    import java.util.List;
+public class FeedFragment extends Fragment {
+    private RecyclerView feedRecyclerView;
+    private TextView feedTitle;
 
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
 
-    public class FeedFragment extends Fragment {
-        private RecyclerView feedRecyclerView;
-        private TextView feedTitle;
+        View view = inflater.inflate(R.layout.fragment_feed, container, false);
 
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
+        feedRecyclerView = view.findViewById(R.id.feedFragment_feeds_rv);
+        feedTitle = view.findViewById(R.id.feedFragment_title_tv);
 
-            View view = inflater.inflate(R.layout.fragment_feed, container, false);
-
-            feedRecyclerView = view.findViewById(R.id.feedFragment_feeds_rv);
-            feedTitle = view.findViewById(R.id.feedFragment_title_tv);
-
-            feedRecyclerView.hasFixedSize();
-            feedRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-
-            //TODO separate this into view model
-
-            List<Recipe> recipesList = new LinkedList<Recipe>();
-            recipesList.add(new Recipe(R.drawable.feed,R.drawable.feed, "Test", "This is body \n This is body" ));
-            recipesList.add(new Recipe(R.drawable.feed,R.drawable.feed, "Test1", "tesad" ));
-            recipesList.add(new Recipe(R.drawable.feed,R.drawable.feed, "Test2", "tesad" ));
-            recipesList.add(new Recipe(R.drawable.feed,R.drawable.feed, "Test3", "tesad" ));
-            recipesList.add(new Recipe(R.drawable.feed,R.drawable.feed, "Test4", "tesad" ));
-            recipesList.add(new Recipe(R.drawable.feed,R.drawable.feed, "Test5", "tesad" ));
-
-            FeedAdapter adapter = new FeedAdapter(recipesList);
-            feedRecyclerView.setAdapter(adapter);
-            return view;
-        }
+        feedRecyclerView.hasFixedSize();
+        feedRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
 
+        FeedViewModel feedViewModel = new FeedViewModel();
+
+        feedViewModel.addRecipe(new Recipe(R.drawable.feed, R.drawable.feed, "Test", "This is body \n This is body"));
+        feedViewModel.addRecipe(new Recipe(R.drawable.feed, R.drawable.feed, "Test1", "tesad"));
+        feedViewModel.addRecipe(new Recipe(R.drawable.feed, R.drawable.feed, "Test3", "tesad"));
+        feedViewModel.addRecipe(new Recipe(R.drawable.feed, R.drawable.feed, "Test4", "tesad"));
+
+        FeedAdapter adapter = new FeedAdapter(feedViewModel.getRecipes());
+        feedRecyclerView.setAdapter(adapter);
+
+        return view;
     }
+
+
+}
