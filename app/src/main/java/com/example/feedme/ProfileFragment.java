@@ -12,9 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import com.google.firebase.auth.FirebaseAuth;
+import com.example.feedme.models.Model;
 
 
 public class ProfileFragment extends Fragment {
@@ -25,7 +23,6 @@ public class ProfileFragment extends Fragment {
     private Button logoutBtn, saveBtn;
     private EditText userName;
 
-    FirebaseAuth mAuth;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -39,12 +36,8 @@ public class ProfileFragment extends Fragment {
         logoutBtn = view.findViewById(R.id.profileFragment_logout_btn);
         saveBtn = view.findViewById(R.id.profileFragment_save_btn);
 
-        // TODO: get firbase out to the model!!
-        mAuth = FirebaseAuth.getInstance();
-
         logoutBtn.setOnClickListener((v -> {
-            mAuth.signOut();
-            startActivity(new Intent(getActivity(), LoginActivity.class));
+            Model.instance().signoutUser((x) -> startActivity(new Intent(getActivity(), LoginActivity.class)));
         }));
 
         return view;

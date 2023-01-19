@@ -32,7 +32,7 @@ public class UploadRecipeFragment extends Fragment {
 
 
         //recipe:
-        // recipeId, userId, title, body, ImageUrl
+        // recipeId, userId, title, body, camera
         // */
 
 

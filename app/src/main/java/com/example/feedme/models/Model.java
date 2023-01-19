@@ -32,7 +32,16 @@ public class Model {
         return firebaseModel.mAuth.getCurrentUser();
     }
 
+    // we return the data using the callback we get as argument
     public void signInWithEmailAndPassword(String email,String password, Listener<Task<AuthResult>> callback){
         firebaseModel.signInWithEmailAndPassword(email,password, callback);
+    }
+
+    public void createUserWithEmailAndPassword(String email,String password,Listener<Task<AuthResult>> callback){
+        firebaseModel.createUserWithEmailAndPassword(email, password, callback);
+    }
+
+    public void signoutUser(Listener<Void> callback){
+        firebaseModel.signoutUser(callback);
     }
 }

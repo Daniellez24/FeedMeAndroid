@@ -1,7 +1,5 @@
 package com.example.feedme.models;
 
-import static androidx.core.content.ContextCompat.Api16Impl.startActivity;
-
 import android.content.Intent;
 import android.widget.Toast;
 
@@ -33,18 +31,32 @@ public class FirebaseModel {
         db.setFirestoreSettings(settings);
     }
 
+
     public void signInWithEmailAndPassword(String email, String password, Model.Listener<Task<AuthResult>> callback){
+
         mAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
-                if (task.isSuccessful()){
-                    Toast.makeText(LoginActivity.class, "User logged in successfully", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(LoginActivity.class, MainActivity.class));
-                }else{
-                    Toast.makeText(LoginActivity.class, "Log in Error: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                }
+                callback.onComplete(task);
             }
         });
+
+    }
+
+    //TODO: when user is sign up, add it to the users collection (id, name, image, recipe array)
+    public void createUserWithEmailAndPassword(String email, String password, Model.Listener<Task<AuthResult>> callback){
+
+        mAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                callback.onComplete(task);
+            }
+        });
+    }
+
+    public void signoutUser(Model.Listener<Void> callback){
+        mAuth.signOut();
+        callback.onComplete(null);
     }
 
 
