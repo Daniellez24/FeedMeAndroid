@@ -14,6 +14,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class FirebaseModel {
 
     FirebaseFirestore db;
@@ -41,6 +44,8 @@ public class FirebaseModel {
             }
         });
 
+        // when having currentUser, add it to db
+//        addNewUser();
     }
 
     //TODO: when user is sign up, add it to the users collection (id, name, image, recipe array)
@@ -52,11 +57,36 @@ public class FirebaseModel {
                 callback.onComplete(task);
             }
         });
+
+        // add user to the firestore db (with default data)
+//        Map<String, Object> json = new HashMap<>();
+//        json.put("id", "id"); //TODO: get id from auth??
+//        json.put("name", "name");
+//        json.put("image", "");
+//        json.put("recipes", new String[100]);
+//
+//        db.collection("users")
+
+        addNewUser();
     }
 
     public void signoutUser(Model.Listener<Void> callback){
         mAuth.signOut();
         callback.onComplete(null);
+    }
+
+    // add user to the firestore db (with default data)
+    public void addNewUser(){
+        String userId = mAuth.getCurrentUser().getUid();
+
+        Map<String, Object> json = new HashMap<>();
+        json.put("id", userId);
+        json.put("name", "name");
+        json.put("image", "");
+        json.put("recipes", new String[100]);
+
+        //TODO: check why user is not saved in the db
+        db.collection("users").document(userId).set(json);
     }
 
 
