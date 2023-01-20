@@ -1,17 +1,19 @@
 package com.example.feedme.models;
 
+import java.util.List;
+
 public class User {
 
     public String id="";
     public String name="";
     public String image="";
-    public String[] recipes;
+    public List recipes;
 
     public User(){
 
     }
 
-    public User(String id, String name, String image, String[] recipes) {
+    public User(String id, String name, String image, List recipes) {
         this.id = id;
         this.name = name;
         this.image = image;

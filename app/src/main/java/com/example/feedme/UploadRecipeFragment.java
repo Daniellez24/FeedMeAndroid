@@ -33,7 +33,7 @@ public class UploadRecipeFragment extends Fragment {
 
         //recipe:
         // recipeId, userId, title, body, camera
-        // */
+        // */ TODO: add these field to "Recipe" class?
 
 
 

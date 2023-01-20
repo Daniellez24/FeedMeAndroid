@@ -1,6 +1,7 @@
 package com.example.feedme.models;
 
 import android.content.Intent;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -8,12 +9,15 @@ import androidx.annotation.NonNull;
 import com.example.feedme.LoginActivity;
 import com.example.feedme.MainActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -43,7 +47,6 @@ public class FirebaseModel {
                 callback.onComplete(task);
             }
         });
-
         // when having currentUser, add it to db
 //        addNewUser();
     }
@@ -55,6 +58,7 @@ public class FirebaseModel {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 callback.onComplete(task);
+                addNewUser();
             }
         });
 
@@ -67,7 +71,6 @@ public class FirebaseModel {
 //
 //        db.collection("users")
 
-        addNewUser();
     }
 
     public void signoutUser(Model.Listener<Void> callback){
@@ -83,10 +86,20 @@ public class FirebaseModel {
         json.put("id", userId);
         json.put("name", "name");
         json.put("image", "");
-        json.put("recipes", new String[100]);
+        json.put("recipes", new ArrayList<>());
 
         //TODO: check why user is not saved in the db
-        db.collection("users").document(userId).set(json);
+        db.collection("users").document(userId).set(json).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                Log.i("TAG", "success");
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.i("TAG", "failure");
+            }
+        });
     }
 
 
