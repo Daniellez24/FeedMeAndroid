@@ -19,9 +19,11 @@ public class FactsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        factsRecyclerView = container.findViewById(R.id.factsFragment_all_facts_rv);
-        factsTitle = container.findViewById(R.id.factsFragment_title_tv);
+        View view = inflater.inflate(R.layout.fragment_facts, container, false);
 
-        return inflater.inflate(R.layout.fragment_facts, container, false);
+        factsRecyclerView = view.findViewById(R.id.factsFragment_all_facts_rv);
+        factsTitle = view.findViewById(R.id.factsFragment_title_tv);
+
+        return view;
     }
 }

@@ -17,10 +17,13 @@ public class UserRecipesFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        View view = inflater.inflate(R.layout.fragment_user_recipes, container, false);
         
-        allRecpies = container.findViewById(R.id.userRecpieFragment_recipes_rv);
-        title = container.findViewById(R.id.userRecpieFragment_title_tv);
-        return inflater.inflate(R.layout.fragment_user_recipes, container, false);
+        allRecpies = view.findViewById(R.id.userRecpieFragment_recipes_rv);
+        title = view.findViewById(R.id.userRecpieFragment_title_tv);
+
+        return view;
     }
 
 }
