@@ -10,12 +10,10 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
+import com.example.feedme.models.Model;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -24,7 +22,7 @@ public class LoginActivity extends AppCompatActivity {
     TextView tvRegisterHere;
     Button btnLogin;
 
-    FirebaseAuth mAuth;
+//    FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +34,7 @@ public class LoginActivity extends AppCompatActivity {
         tvRegisterHere = findViewById(R.id.tvRegisterHere);
         btnLogin = findViewById(R.id.btnLogin);
 
-        mAuth = FirebaseAuth.getInstance();
+//        mAuth = FirebaseAuth.getInstance();
 
         btnLogin.setOnClickListener(view -> {
             loginUser();
@@ -57,15 +55,12 @@ public class LoginActivity extends AppCompatActivity {
             etLoginPassword.setError("Password cannot be empty");
             etLoginPassword.requestFocus();
         }else{
-            mAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                @Override
-                public void onComplete(@NonNull Task<AuthResult> task) {
-                    if (task.isSuccessful()){
-                        Toast.makeText(LoginActivity.this, "User logged in successfully", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                    }else{
-                        Toast.makeText(LoginActivity.this, "Log in Error: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                    }
+            Model.instance().signInWithEmailAndPassword(email, password, (@NonNull Task<AuthResult> task) -> {
+                if (task.isSuccessful()){
+                    Toast.makeText(LoginActivity.this, "User logged in successfully", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                }else{
+                    Toast.makeText(LoginActivity.this, "Log in Error: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                 }
             });
         }

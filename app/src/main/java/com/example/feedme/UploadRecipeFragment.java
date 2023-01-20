@@ -17,6 +17,7 @@ public class UploadRecipeFragment extends Fragment {
     private ImageView recipeImage;
     private EditText recipeTitle, recipeBody;
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -28,6 +29,12 @@ public class UploadRecipeFragment extends Fragment {
         recipeImage =  view.findViewById(R.id.uploadFragment_recepie_img);
         recipeTitle =  view.findViewById(R.id.uploadFragment_title_et);
         recipeBody =  view.findViewById(R.id.uploadFragment_recepie_et);
+
+
+        //recipe:
+        // recipeId, userId, title, body, camera
+
+
 
         return view;
     }
