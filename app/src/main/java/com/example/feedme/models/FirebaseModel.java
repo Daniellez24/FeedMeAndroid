@@ -1,22 +1,25 @@
 package com.example.feedme.models;
 
-import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
-import com.example.feedme.LoginActivity;
-import com.example.feedme.MainActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -25,11 +28,13 @@ public class FirebaseModel {
 
     FirebaseFirestore db;
     FirebaseAuth mAuth;
+    FirebaseStorage storage;
 
 
     FirebaseModel(){
         db = FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
+        storage = FirebaseStorage.getInstance();
 
         // set the firestore to *not* store in local db
         FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
@@ -90,6 +95,49 @@ public class FirebaseModel {
         });
     }
 
+    public String getCurrentUserId(){
+        return mAuth.getCurrentUser().getUid();
+    }
 
+    void addRecipe(Recipe recipe, Model.Listener<Void> listener){
+        db.collection("recipes").add(recipe).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+            @Override
+            public void onSuccess(DocumentReference documentReference) {
+                Log.d("TAG", "recipe added to firestore");
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.w("TAG", "Error adding recipe to firestore");
+            }
+        });
+    }
+
+    void uploadImage(String name, Bitmap bitmap, Model.Listener<String> listener){
+        StorageReference storageRef = storage.getReference();
+        StorageReference imageRef = storageRef.child("images/" + name + ".jpg");
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] data = baos.toByteArray();
+
+        UploadTask uploadTask = imageRef.putBytes(data);
+        uploadTask.addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                listener.onComplete(null);
+            }
+        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                imageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        listener.onComplete(uri.toString());
+                    }
+                });
+            }
+        });
+    }
 
 }
