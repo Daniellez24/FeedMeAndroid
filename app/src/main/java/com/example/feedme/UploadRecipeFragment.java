@@ -82,14 +82,10 @@ public class UploadRecipeFragment extends Fragment {
         recipeTitle =  view.findViewById(R.id.uploadFragment_title_et);
         recipeBody =  view.findViewById(R.id.uploadFragment_recepie_et);
 
-
-        //recipe:
-        // recipeId, userId, title, body, camera
         uploadButton.setOnClickListener((v) -> {
             String title = recipeTitle.getText().toString();
             String body = recipeBody.getText().toString();
             String userId = Model.instance().getCurrentUserId();
-            // add image
             Recipe recipe = new Recipe(userId, "", title, body);
 
             if(isImageSelected){
