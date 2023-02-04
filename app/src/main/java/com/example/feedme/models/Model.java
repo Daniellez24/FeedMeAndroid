@@ -1,6 +1,7 @@
 package com.example.feedme.models;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -73,7 +74,19 @@ public class Model {
         Long localLastUpdate = Recipe.getLocalLastUpdate();
     }
 
-    public void addRecipe(Recipe recipe){
-        //firebaseModel.addRecipe.....
+    public String getCurrentUserId(){
+        return firebaseModel.getCurrentUserId();
+    }
+
+    public void addRecipe(Recipe recipe, Listener<Void> listener){
+        firebaseModel.addRecipe(recipe, (Void) -> {
+            //refresh all recipes
+            listener.onComplete(null);
+        });
+    }
+
+
+    public void uploadImage(String name, Bitmap bitmap, Listener<String> listener){
+        firebaseModel.uploadImage(name, bitmap, listener);
     }
 }

@@ -34,10 +34,10 @@ public class FeedFragment extends Fragment {
 
         FeedViewModel feedViewModel = new FeedViewModel();
 
-//        feedViewModel.addRecipe(new Recipe(R.drawable.feed, "Test", "This is body \n This is body"));
-//        feedViewModel.addRecipe(new Recipe(R.drawable.feed, "Test1", "tesad"));
-//        feedViewModel.addRecipe(new Recipe(R.drawable.feed,"Test3", "tesad"));
-//        feedViewModel.addRecipe(new Recipe(R.drawable.feed,"Test4", "tesad"));
+//        feedViewModel.addRecipe(new Recipe("",R.drawable.feed, "Test", "This is body \n This is body"));
+//        feedViewModel.addRecipe(new Recipe("",R.drawable.feed, "Test1", "tesad"));
+//        feedViewModel.addRecipe(new Recipe("",R.drawable.feed,"Test3", "tesad"));
+//        feedViewModel.addRecipe(new Recipe("",R.drawable.feed,"Test4", "tesad"));
 
         FeedAdapter adapter = new FeedAdapter(feedViewModel.getRecipes());
         feedRecyclerView.setAdapter(adapter);
