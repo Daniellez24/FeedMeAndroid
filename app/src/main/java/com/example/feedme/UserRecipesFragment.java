@@ -10,18 +10,25 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.feedme.adapters.MyRecipesRecyclerAdapter;
+import com.example.feedme.viewModels.MyRecipesFragmentViewModel;
+
 public class UserRecipesFragment extends Fragment {
-    private RecyclerView allRecpies;
-    private TextView title;
+    //TODO: on edit, save edited recipe in the db
+//    private RecyclerView myRecpiesList;
+
+    //FragmentMyRecipesListBinding binding;
+    MyRecipesRecyclerAdapter adapter;
+    MyRecipesFragmentViewModel viewModel;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_user_recipes, container, false);
-        
-        allRecpies = view.findViewById(R.id.userRecpieFragment_recipes_rv);
-        title = view.findViewById(R.id.userRecpieFragment_title_tv);
+
+        myRecpiesList = view.findViewById(R.id.userRecpieFragment_recipes_rv);
 
         return view;
     }
