@@ -27,6 +27,10 @@ public class Recipe {
         this.recipeBody = recipeBody;
     }
 
+    public static Long getLocalLastUpdate() {
+        //TODO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        return null;
+    }
     public String getUserId(){ return userId; }
 
     public String getRecipeImage() {
