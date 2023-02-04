@@ -68,6 +68,13 @@ public class Model {
         return myRecipesList;
     }
 
+    public void addRecipe(Recipe recipe, Listener<Void> listener){
+        firebaseModel.addRecipe(recipe, (Void) -> {
+            //refresh all recipes
+            listener.onComplete(null);
+        });
+    }
+
     public void refreshMyRecipesList(){
         EventMyRecipesLoadingState.setValue(LoadingState.LOADING);
         // TODO: implement getLocalLastUpdate() in Recipe
@@ -76,13 +83,6 @@ public class Model {
 
     public String getCurrentUserId(){
         return firebaseModel.getCurrentUserId();
-    }
-
-    public void addRecipe(Recipe recipe, Listener<Void> listener){
-        firebaseModel.addRecipe(recipe, (Void) -> {
-            //refresh all recipes
-            listener.onComplete(null);
-        });
     }
 
 
