@@ -5,6 +5,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import com.example.feedme.LoginActivity;
 import com.example.feedme.MainActivity;
@@ -48,7 +49,15 @@ public class Model {
         firebaseModel.signoutUser(callback);
     }
 
+    public enum LoadingState{
+        LOADING,
+        NOT_LOADING
+    }
+
+
+    final public MutableLiveData<LoadingState> EventMyRecipesLoadingState = new MutableLiveData<LoadingState>(LoadingState.NOT_LOADING);
     private LiveData<List<Recipe>> myRecipesList;
+
     public LiveData<List<Recipe>> getMyRecipesList(){
         if(myRecipesList == null){
             //TODO: add local db
@@ -56,6 +65,12 @@ public class Model {
             //refreshMyRecipes();
         }
         return myRecipesList;
+    }
+
+    public void refreshMyRecipesList(){
+        EventMyRecipesLoadingState.setValue(LoadingState.LOADING);
+        // TODO: implement getLocalLastUpdate() in Recipe
+        Long localLastUpdate = Recipe.getLocalLastUpdate();
     }
 
     public void addRecipe(Recipe recipe){

@@ -11,6 +11,11 @@ public class Recipe {
         this.recipeBody = recipeBody;
     }
 
+    public static Long getLocalLastUpdate() {
+        //TODO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        return null;
+    }
+
     public String getRecipeImage() {
         return recipeImage;
     }
