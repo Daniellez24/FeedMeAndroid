@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
+    android:label="Tips"
     app:startDestination="@id/feedFragment">
     <fragment
         android:id="@+id/profileFragment"
@@ -26,8 +27,8 @@
         tools:layout="@layout/fragment_upload_recipe" />
 
     <fragment
-        android:id="@+id/factsFragment"
+        android:id="@+id/tipsFragment"
         android:name="com.example.feedme.TipsFragment"
-        android:label="Fun Facts"
+        android:label="Tips"
         tools:layout="@layout/fragment_tips" />
 </navigation>

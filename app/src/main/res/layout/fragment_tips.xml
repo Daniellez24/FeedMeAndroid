@@ -8,7 +8,7 @@
     tools:context=".TipsFragment">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/factsFragment_all_facts_rv"
+        android:id="@+id/tipsFragment_rv"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
