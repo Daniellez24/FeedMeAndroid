@@ -19,8 +19,6 @@ public class FeedViewModel extends ViewModel {
         recipesList.add(recipe);
     }
 
-
-
     public void setData (List<Recipe> list){
         recipesList = list;
     }

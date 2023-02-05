@@ -9,41 +9,52 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.example.feedme.adapters.FeedAdapter;
+import com.example.feedme.databinding.FragmentFeedBinding;
+import com.example.feedme.models.FirebaseCallback;
+import com.example.feedme.models.FirebaseModel;
+import com.example.feedme.models.Model;
 import com.example.feedme.models.Recipe;
 import com.example.feedme.viewModels.FeedViewModel;
 
+import java.util.List;
+
 public class FeedFragment extends Fragment {
+
+    private FragmentFeedBinding binding;
     private RecyclerView feedRecyclerView;
-    private TextView feedTitle;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_feed, container, false);
+        binding = FragmentFeedBinding.inflate(inflater, container, false);
+        View view = binding.getRoot();
 
-        feedRecyclerView = view.findViewById(R.id.feedFragment_feeds_rv);
-        feedTitle = view.findViewById(R.id.feedFragment_title_tv);
-
+        feedRecyclerView = binding.feedFragmentFeedsRv;
         feedRecyclerView.hasFixedSize();
         feedRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-
         FeedViewModel feedViewModel = new FeedViewModel();
-
-//        feedViewModel.addRecipe(new Recipe("",R.drawable.feed, "Test", "This is body \n This is body"));
-//        feedViewModel.addRecipe(new Recipe("",R.drawable.feed, "Test1", "tesad"));
-//        feedViewModel.addRecipe(new Recipe("",R.drawable.feed,"Test3", "tesad"));
-//        feedViewModel.addRecipe(new Recipe("",R.drawable.feed,"Test4", "tesad"));
 
         FeedAdapter adapter = new FeedAdapter(feedViewModel.getRecipes());
         feedRecyclerView.setAdapter(adapter);
 
+        Model.instance().getFeedItems(new FirebaseCallback() {
+            @Override
+            public void onCallback(List<Recipe> list) {
+                //TODO add spinner to this class + remove it after setting the data
+                feedViewModel.setData(list);
+                adapter.notifyDataSetChanged();
+                String s = "sdasd";
+//                return null;
+            }
+        });
+
+
+
         return view;
     }
-
 
 }
