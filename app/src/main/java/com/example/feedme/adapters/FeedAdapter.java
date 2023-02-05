@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.feedme.R;
 import com.example.feedme.models.Recipe;
+import com.example.feedme.models.Tip;
 import com.example.feedme.viewHolders.RecipeViewHolder;
 
 import java.util.LinkedList;
@@ -17,6 +18,12 @@ import java.util.List;
 
 public class FeedAdapter extends RecyclerView.Adapter<RecipeViewHolder> {
     private List<Recipe> recipes;
+
+
+    public void setData(List<Recipe> data) {
+        this.recipes = data;
+        notifyDataSetChanged();
+    }
 
     public FeedAdapter(List<Recipe> recipes) {
         this.recipes = recipes;

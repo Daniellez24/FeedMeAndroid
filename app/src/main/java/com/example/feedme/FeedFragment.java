@@ -20,10 +20,12 @@ import com.example.feedme.viewModels.FeedViewModel;
 
 import java.util.List;
 
+
 public class FeedFragment extends Fragment {
 
     private FragmentFeedBinding binding;
     private RecyclerView feedRecyclerView;
+    private FeedAdapter adapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -37,8 +39,7 @@ public class FeedFragment extends Fragment {
         feedRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         FeedViewModel feedViewModel = new FeedViewModel();
-
-        FeedAdapter adapter = new FeedAdapter(feedViewModel.getRecipes());
+        adapter = new FeedAdapter((List<Recipe>) feedViewModel.getRecipes());
         feedRecyclerView.setAdapter(adapter);
 
         Model.instance().getFeedItems(new FirebaseCallback() {
@@ -47,14 +48,16 @@ public class FeedFragment extends Fragment {
                 //TODO add spinner to this class + remove it after setting the data
                 feedViewModel.setData(list);
                 adapter.notifyDataSetChanged();
-                String s = "sdasd";
-//                return null;
             }
         });
 
-
+//        feedViewModel.getRecipes().observe(getViewLifecycleOwner(), list -> {
+//            adapter.setData(list);
+//        });
 
         return view;
     }
-
 }
+
+
+
