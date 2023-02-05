@@ -27,7 +27,7 @@
 
     <fragment
         android:id="@+id/factsFragment"
-        android:name="com.example.feedme.FactsFragment"
+        android:name="com.example.feedme.TipsFragment"
         android:label="Fun Facts"
-        tools:layout="@layout/fragment_facts" />
+        tools:layout="@layout/fragment_tips" />
 </navigation>
