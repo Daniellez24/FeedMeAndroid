@@ -62,4 +62,6 @@ public class TipsFragment extends Fragment {
         super.onAttach(context);
         viewModel = new ViewModelProvider(this).get(TipsFragmentViewModel.class);
     }
+
+
 }

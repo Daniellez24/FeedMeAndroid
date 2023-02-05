@@ -12,9 +12,12 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -22,6 +25,7 @@ import com.google.firebase.storage.UploadTask;
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class FirebaseModel {
@@ -53,6 +57,32 @@ public class FirebaseModel {
             }
         });
 
+    }
+
+    public void getFeedItems(FirebaseCallback firebaseCallback){
+        final List<Recipe> recipes = new ArrayList<>();
+
+        CollectionReference collectionReference = db.collection("recipes");
+        collectionReference.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        Log.d("TAG",  "Test for return => " + document.getData());
+                        Map<String, Object> data = document.getData();
+                        String userId = (String) document.get("userId");
+                        String recipeTitle = (String) document.get("recipeTitle");
+                        String recipeBody = (String) document.get("recipeBody");
+                        String recipeImage = (String) document.get("recipeImage");
+
+                        recipes.add(new Recipe(userId,recipeImage,recipeTitle,recipeBody));
+                    }
+                    firebaseCallback.onCallback(recipes);
+                } else {
+                    Log.w("TAG", "Error getting documents.", task.getException());
+                }
+            }
+        });
     }
 
     public void createUserWithEmailAndPassword(String email, String password, Model.Listener<Task<AuthResult>> callback){
