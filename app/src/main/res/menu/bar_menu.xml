@@ -18,7 +18,7 @@
         android:icon="@drawable/myrecipes"
         android:title="My Recipes" />
     <item
-        android:id="@+id/factsFragment"
+        android:id="@+id/tipsFragment"
         android:icon="@drawable/facts"
-        android:title="Fun Facts" />
+        android:title="Tips" />
 </menu>
