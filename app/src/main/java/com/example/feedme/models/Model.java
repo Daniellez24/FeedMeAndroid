@@ -8,6 +8,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
+
 import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
@@ -18,36 +19,36 @@ public class Model {
     private FirebaseModel firebaseModel = new FirebaseModel();
     AppLocalDbRepository localDb = AppLocalDb.getAppDb();
 
-    public static Model instance(){
+    public static Model instance() {
         return _instance;
     }
 
-    private Model(){
+    private Model() {
 
     }
 
-    public interface Listener<T>{
+    public interface Listener<T> {
         void onComplete(T data);
     }
 
-    public Object getCurrentUser(){
+    public Object getCurrentUser() {
         return firebaseModel.mAuth.getCurrentUser();
     }
 
     // we return the data using the callback we get as argument
-    public void signInWithEmailAndPassword(String email,String password, Listener<Task<AuthResult>> callback){
-        firebaseModel.signInWithEmailAndPassword(email,password, callback);
+    public void signInWithEmailAndPassword(String email, String password, Listener<Task<AuthResult>> callback) {
+        firebaseModel.signInWithEmailAndPassword(email, password, callback);
     }
 
-    public void createUserWithEmailAndPassword(String email,String password,Listener<Task<AuthResult>> callback){
+    public void createUserWithEmailAndPassword(String email, String password, Listener<Task<AuthResult>> callback) {
         firebaseModel.createUserWithEmailAndPassword(email, password, callback);
     }
 
-    public void signoutUser(Listener<Void> callback){
+    public void signoutUser(Listener<Void> callback) {
         firebaseModel.signoutUser(callback);
     }
 
-    public enum LoadingState{
+    public enum LoadingState {
         LOADING,
         NOT_LOADING
     }
@@ -55,8 +56,8 @@ public class Model {
     final public MutableLiveData<LoadingState> EventMyRecipesLoadingState = new MutableLiveData<LoadingState>(LoadingState.NOT_LOADING);
     private LiveData<List<Recipe>> myRecipesList;
 
-    public LiveData<List<Recipe>> getMyRecipesList(){
-        if(myRecipesList == null){
+    public LiveData<List<Recipe>> getMyRecipesList() {
+        if (myRecipesList == null) {
             //TODO: add local db
             //myRecipesList = localDB.recipeDAO().getAll();
             //refreshMyRecipes();
@@ -64,50 +65,56 @@ public class Model {
         return myRecipesList;
     }
 
-    public void addRecipe(Recipe recipe, Listener<Void> listener){
+    public void addRecipe(Recipe recipe, Listener<Void> listener) {
         firebaseModel.addRecipe(recipe, (Void) -> {
             //refresh all recipes
             listener.onComplete(null);
         });
     }
 
-    public void refreshMyRecipesList(){
+    public void refreshMyRecipesList() {
         EventMyRecipesLoadingState.setValue(LoadingState.LOADING);
         // TODO: implement getLocalLastUpdate() in Recipe
         Long localLastUpdate = Recipe.getLocalLastUpdate();
     }
 
-    public String getCurrentUserId(){
+    public String getCurrentUserId() {
         return firebaseModel.getCurrentUserId();
     }
 
-    public void uploadImage(String name, Bitmap bitmap, Listener<String> listener){
+    public void uploadImage(String name, Bitmap bitmap, Listener<String> listener) {
         firebaseModel.uploadImage(name, bitmap, listener);
     }
 
 
-    private LiveData<List<Recipe>> recipeList = null;
+    private LiveData<List<Recipe>> recipeList;
 
-    public LiveData<List<Recipe>> getFeedItems(){
+    public LiveData<List<Recipe>> getFeedItems() {
 
         recipeList = localDb.recipeDao().getAll();
 
-        if (recipeList == null) {
+        if (recipeList.getValue() == null) {
             refreshRecipes();
         }
         return recipeList;
     }
 
 
-    public void refreshRecipes(){
+    public void refreshRecipes() {
         firebaseModel.getFeedItems(new Listener() {
             @Override
             public void onComplete(Object data) {
+                List<Recipe> list = (List<Recipe>) data;
                 Log.d("danilelee", data + "");
                 executor.execute(() -> {
-//            localDb.recipeDao().insertAll(new Recipe("gA2lpMhGJTf8EMEFfaO5zxjwEZdK2","https://firebasestorage.googleapis.com/v0/b/feedme-android.appspot.com/o/images%2FSat%20Jan%2021%2015%3A21%3A47%20GMT%2B02%3A00%202023.jpg?alt=media&token=3761124f-e31b-4800-a481-fb48ac74c529","make pasta","sdasdas"));
-//            localDb.recipeDao().insertAll(new Recipe("gA2lpMhGJTf8EMEFfaO5zxjwEZsdK2","https://firebasestorage.googleapis.com/v0/b/feedme-android.appspot.com/o/images%2FSat%20Jan%2021%2015%3A21%3A47%20GMT%2B02%3A00%202023.jpg?alt=media&token=3761124f-e31b-4800-a481-fb48ac74c529","make pasta","sdasdas"));
-//            localDb.recipeDao().insertAll(new Recipe("gA2lpMhGJTf8EMEFfaO5zxjwEZsK2","https://firebasestorage.googleapis.com/v0/b/feedme-android.appspot.com/o/images%2FSat%20Jan%2021%2015%3A21%3A47%20GMT%2B02%3A00%202023.jpg?alt=media&token=3761124f-e31b-4800-a481-fb48ac74c529","make pasta","sdasdas"));
+                    for (Recipe r : list) {
+                        localDb.recipeDao().insertAll(r);
+//                        localDb.recipeDao().insertAll(new Recipe("gA2lpMhGJTf8EMEFfaO5zxjwEZdK2", "https://firebasestorage.googleapis.com/v0/b/feedme-android.appspot.com/o/images%2FSat%20Jan%2021%2015%3A21%3A47%20GMT%2B02%3A00%202023.jpg?alt=media&token=3761124f-e31b-4800-a481-fb48ac74c529", "make pasta", "sdasdas"));
+
+                    }
+//            localDb.recipeDao().insertAll(new Recipe("gA2lpMhGJTf8EMEFfaO5zxjwEZdK2l","https://firebasestorage.googleapis.com/v0/b/feedme-android.appspot.com/o/images%2FSat%20Jan%2021%2015%3A21%3A47%20GMT%2B02%3A00%202023.jpg?alt=media&token=3761124f-e31b-4800-a481-fb48ac74c529","make pasta","sdasdas"));
+//            localDb.recipeDao().insertAll(new Recipe("gA2lpMhGJTf8EMEFfaO5zxjwEZsdK2k","https://firebasestorage.googleapis.com/v0/b/feedme-android.appspot.com/o/images%2FSat%20Jan%2021%2015%3A21%3A47%20GMT%2B02%3A00%202023.jpg?alt=media&token=3761124f-e31b-4800-a481-fb48ac74c529","make pasta","sdasdas"));
+//            localDb.recipeDao().insertAll(new Recipe("gA2lpMhGJTf8EMEFfaO5zxjwEZsK2jjk","https://firebasestorage.googleapis.com/v0/b/feedme-android.appspot.com/o/images%2FSat%20Jan%2021%2015%3A21%3A47%20GMT%2B02%3A00%202023.jpg?alt=media&token=3761124f-e31b-4800-a481-fb48ac74c529","make pasta","sdasdas"));
                 });
 
             }

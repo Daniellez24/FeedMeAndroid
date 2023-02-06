@@ -17,7 +17,7 @@
         LiveData<List<Recipe>> getAll();
 
         @Query("select * from Recipe where userId = :id")
-        Recipe getRecipeById(String id);
+        Recipe getRecipeByUserId(String id);
 
         @Insert(onConflict = OnConflictStrategy.REPLACE)
         void insertAll(Recipe... recipes);
