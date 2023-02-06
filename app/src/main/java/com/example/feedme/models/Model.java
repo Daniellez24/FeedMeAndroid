@@ -1,19 +1,15 @@
 package com.example.feedme.models;
 
-import android.content.Intent;
 import android.graphics.Bitmap;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.example.feedme.LoginActivity;
-import com.example.feedme.MainActivity;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class Model {
@@ -55,7 +51,6 @@ public class Model {
         NOT_LOADING
     }
 
-
     final public MutableLiveData<LoadingState> EventMyRecipesLoadingState = new MutableLiveData<LoadingState>(LoadingState.NOT_LOADING);
     private LiveData<List<Recipe>> myRecipesList;
 
@@ -90,7 +85,26 @@ public class Model {
         firebaseModel.uploadImage(name, bitmap, listener);
     }
 
-    public void getFeedItems(FirebaseCallback firebaseCallback){
-        firebaseModel.getFeedItems(firebaseCallback);
+
+    private LiveData<List<Recipe>> recipeList =  new MutableLiveData<>();
+
+    public LiveData<List<Recipe>> getFeedItems(){
+        //TODO pull this out of local db if recipeList is null and not
+        // initialize it to MutableLiveData
+        if (recipeList == null) {
+            recipeList = new MutableLiveData<>();
+            refreshRecipes();
+        }
+        return recipeList;
     }
+
+
+    public void refreshRecipes(){
+        firebaseModel.getFeedItems(new Listener() {
+            @Override
+            public void onComplete(Object data) {
+            }
+        });
+    }
+
 }

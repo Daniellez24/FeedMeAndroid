@@ -59,7 +59,7 @@ public class FirebaseModel {
 
     }
 
-    public void getFeedItems(FirebaseCallback firebaseCallback){
+    public void getFeedItems(Model.Listener callback){
         final List<Recipe> recipes = new ArrayList<>();
 
         CollectionReference collectionReference = db.collection("recipes");
@@ -77,7 +77,7 @@ public class FirebaseModel {
 
                         recipes.add(new Recipe(userId,recipeImage,recipeTitle,recipeBody));
                     }
-                    firebaseCallback.onCallback(recipes);
+                    callback.onComplete(recipes);
                 } else {
                     Log.w("TAG", "Error getting documents.", task.getException());
                 }
