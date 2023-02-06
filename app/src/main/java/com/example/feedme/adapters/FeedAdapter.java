@@ -10,13 +10,19 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.feedme.R;
 import com.example.feedme.models.Recipe;
+import com.example.feedme.models.Tip;
 import com.example.feedme.viewHolders.RecipeViewHolder;
 
 import java.util.LinkedList;
 import java.util.List;
 
 public class FeedAdapter extends RecyclerView.Adapter<RecipeViewHolder> {
-    private List<Recipe> recipes;
+    private List<Recipe> recipes = new LinkedList<>();
+
+    public void setData(List<Recipe> data) {
+        this.recipes = data;
+        notifyDataSetChanged();
+    }
 
     public FeedAdapter(List<Recipe> recipes) {
         this.recipes = recipes;
@@ -37,6 +43,7 @@ public class FeedAdapter extends RecyclerView.Adapter<RecipeViewHolder> {
 
     @Override
     public int getItemCount() {
+        if(recipes == null) return 0;
         return recipes.size();
     }
 }

@@ -26,7 +26,7 @@ public class RecipeViewHolder extends RecyclerView.ViewHolder {
     public void bind(Recipe recipe){
         recipeBody.setText(recipe.getRecipeBody());
         recipeTitle.setText(recipe.getRecipeTitle());
-        profileImg.setBackgroundResource(recipe.getProfilePic());
-        recipeImage.setBackgroundResource(recipe.getRecipeImage());
+//        profileImg.setBackgroundResource(recipe.getProfilePic());
+//        recipeImage.setBackgroundResource(recipe.getRecipeImage());
     }
 }
