@@ -17,8 +17,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class FeedAdapter extends RecyclerView.Adapter<RecipeViewHolder> {
-    private List<Recipe> recipes;
-
+    private List<Recipe> recipes = new LinkedList<>();
 
     public void setData(List<Recipe> data) {
         this.recipes = data;
@@ -44,6 +43,7 @@ public class FeedAdapter extends RecyclerView.Adapter<RecipeViewHolder> {
 
     @Override
     public int getItemCount() {
+        if(recipes == null) return 0;
         return recipes.size();
     }
 }
