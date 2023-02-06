@@ -87,11 +87,11 @@ public class Model {
     }
 
 
-    private LiveData<List<Recipe>> recipeList;
-
+    private MutableLiveData<List<Recipe>> recipeList = new MutableLiveData<>();
     public LiveData<List<Recipe>> getFeedItems() {
 
-        recipeList = localDb.recipeDao().getAll();
+
+        recipeList.setValue(localDb.recipeDao().getAll().getValue());
 
         if (recipeList.getValue() == null) {
             refreshRecipes();
@@ -105,18 +105,12 @@ public class Model {
             @Override
             public void onComplete(Object data) {
                 List<Recipe> list = (List<Recipe>) data;
-                Log.d("danilelee", data + "");
                 executor.execute(() -> {
                     for (Recipe r : list) {
                         localDb.recipeDao().insertAll(r);
-//                        localDb.recipeDao().insertAll(new Recipe("gA2lpMhGJTf8EMEFfaO5zxjwEZdK2", "https://firebasestorage.googleapis.com/v0/b/feedme-android.appspot.com/o/images%2FSat%20Jan%2021%2015%3A21%3A47%20GMT%2B02%3A00%202023.jpg?alt=media&token=3761124f-e31b-4800-a481-fb48ac74c529", "make pasta", "sdasdas"));
-
                     }
-//            localDb.recipeDao().insertAll(new Recipe("gA2lpMhGJTf8EMEFfaO5zxjwEZdK2l","https://firebasestorage.googleapis.com/v0/b/feedme-android.appspot.com/o/images%2FSat%20Jan%2021%2015%3A21%3A47%20GMT%2B02%3A00%202023.jpg?alt=media&token=3761124f-e31b-4800-a481-fb48ac74c529","make pasta","sdasdas"));
-//            localDb.recipeDao().insertAll(new Recipe("gA2lpMhGJTf8EMEFfaO5zxjwEZsdK2k","https://firebasestorage.googleapis.com/v0/b/feedme-android.appspot.com/o/images%2FSat%20Jan%2021%2015%3A21%3A47%20GMT%2B02%3A00%202023.jpg?alt=media&token=3761124f-e31b-4800-a481-fb48ac74c529","make pasta","sdasdas"));
-//            localDb.recipeDao().insertAll(new Recipe("gA2lpMhGJTf8EMEFfaO5zxjwEZsK2jjk","https://firebasestorage.googleapis.com/v0/b/feedme-android.appspot.com/o/images%2FSat%20Jan%2021%2015%3A21%3A47%20GMT%2B02%3A00%202023.jpg?alt=media&token=3761124f-e31b-4800-a481-fb48ac74c529","make pasta","sdasdas"));
+                    recipeList.postValue(list);
                 });
-
             }
         });
     }
