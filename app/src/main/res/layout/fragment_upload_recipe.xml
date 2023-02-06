@@ -29,7 +29,7 @@
         android:ems="10"
         android:gravity="top"
         android:inputType="text|textMultiLine"
-        android:text="Recepie "
+        android:text="Recipe"
         app:layout_constraintBottom_toTopOf="@+id/uploadFragment_upload_btn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"

@@ -3,53 +3,46 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:layout_margin="5dp"
-    android:background="#C6B3B3">
-
-    <ImageView
-        android:id="@+id/feed_item_recipe_image_iv"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_marginTop="32dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/feed_item_profile_image_iv"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/feed" />
+    android:background="#7DCCF1">
 
     <ImageView
         android:id="@+id/feed_item_profile_image_iv"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        app:layout_constraintEnd_toStartOf="@+id/feed_item_recipe_image_iv"
-        app:layout_constraintHorizontal_bias="0.5"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/feed_item_recipe_image_iv"
+        app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/profile" />
+
 
     <TextView
         android:id="@+id/feed_item_title_et"
-        android:layout_width="300dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="32dp"
+        android:layout_width="0dp"
+        android:layout_height="37dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
         android:ems="10"
         android:inputType="textPersonName"
         android:text="Title"
-        android:textSize="34sp"
-        app:layout_constraintEnd_toEndOf="@+id/feed_item_recipe_image_iv"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/feed_item_recipe_image_iv" />
-
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/feed_item_profile_image_iv"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ScrollView
         android:id="@+id/feed_item_scroll_view_sv"
-        android:layout_width="409dp"
+        android:layout_width="0dp"
         android:layout_height="172dp"
-        android:background="#A52B2B"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:background="#7DCCF1"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/feed_item_profile_image_iv"
         app:layout_constraintTop_toBottomOf="@+id/feed_item_title_et">
 
         <LinearLayout
@@ -58,12 +51,13 @@
 
             <TextView
                 android:id="@+id/feed_item_recipe_body_et"
-                android:layout_width="300dp"
-                android:layout_height="500dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="textPersonName"
                 android:text="Recipe body"
-                android:textSize="24sp"
+                android:textAlignment="textStart"
+                android:textSize="20sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@+id/feed_item_recipe_image_iv"
                 app:layout_constraintStart_toStartOf="parent"
@@ -73,4 +67,19 @@
 
 
     </ScrollView>
+
+    <ImageView
+        android:id="@+id/feed_item_recipe_image_iv2"
+        android:layout_width="0dp"
+        android:layout_height="120dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/feed_item_profile_image_iv"
+        app:layout_constraintTop_toBottomOf="@+id/feed_item_scroll_view_sv"
+        app:srcCompat="@drawable/cooking_icon" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
