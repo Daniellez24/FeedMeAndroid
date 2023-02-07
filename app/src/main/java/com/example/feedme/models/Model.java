@@ -61,8 +61,6 @@ public class Model {
         myRecipesList.setValue(
                 localDb.usersRecipeDao().getAll().getValue()
         );
-
-
         if (myRecipesList == null || myRecipesList.getValue() == null) {
             refreshMyRecipesList();
         }
@@ -71,13 +69,13 @@ public class Model {
 
     public void addRecipe(Recipe recipe, Listener<Void> listener) {
         firebaseModel.addRecipe(recipe, (Void) -> {
-            //refresh all recipes
+            refreshRecipes();
+            refreshMyRecipesList();
             listener.onComplete(null);
         });
     }
 
     public void refreshMyRecipesList() {
-//        EventMyRecipesLoadingState.setValue(LoadingState.LOADING);
         String userId = firebaseModel.getCurrentUserId();
         firebaseModel.getRecipesByUserId(userId, new Listener() {
             @Override
@@ -91,7 +89,6 @@ public class Model {
                 });
             }
         });
-//        Long localLastUpdate = Recipe.getLocalLastUpdate();
     }
 
     public String getCurrentUserId() {
