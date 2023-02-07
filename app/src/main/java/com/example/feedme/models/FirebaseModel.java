@@ -151,6 +151,26 @@ public class FirebaseModel {
         });
     }
 
+    public void editUser(String name, String image, Model.Listener<Void> callback){
+        String userId = mAuth.getCurrentUser().getUid();
+
+        Map<String, Object> json = new HashMap<>();
+        json.put("id", userId);
+        if(name != null)
+            json.put("name", name);
+        if(image != null)
+            json.put("image", image);
+
+        // update new fields
+        db.collection("users").document(userId).update(json).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                callback.onComplete(null);
+            }
+        });
+
+    }
+
     public String getCurrentUserId() {
         return mAuth.getCurrentUser().getUid();
     }

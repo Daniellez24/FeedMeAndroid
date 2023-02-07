@@ -49,6 +49,10 @@ public class Model {
         firebaseModel.signoutUser(callback);
     }
 
+    public void editUser(String name, String Image, Listener<Void> callback){
+        firebaseModel.editUser(name, Image, callback);
+    }
+
     public enum LoadingState {
         LOADING,
         NOT_LOADING

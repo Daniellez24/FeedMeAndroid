@@ -4,7 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,6 +40,12 @@ public class ProfileFragment extends Fragment {
 
         logoutBtn.setOnClickListener((v -> {
             Model.instance().signoutUser((x) -> startActivity(new Intent(getActivity(), LoginActivity.class)));
+        }));
+
+        saveBtn.setOnClickListener((v -> {
+            Model.instance().editUser(userName.getText().toString(), profileImg.getTransitionName(), (unused) ->{
+                Navigation.findNavController(v).popBackStack();
+            });
         }));
 
         return view;
