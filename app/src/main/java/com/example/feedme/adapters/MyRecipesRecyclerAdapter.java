@@ -31,7 +31,7 @@ public class MyRecipesRecyclerAdapter extends RecyclerView.Adapter<MyRecipeViewH
     @NonNull
     @Override
     public MyRecipeViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = inflater.inflate(R.layout.my_recipes_item, parent, false);
+        View view = inflater.inflate(R.layout.feed_item, parent, false);
         return new MyRecipeViewHolder(view, data);
     }
 
