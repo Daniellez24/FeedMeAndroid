@@ -19,7 +19,7 @@ public class Recipe {
     @PrimaryKey
     @NonNull
     String userId = "";
-    String recipeImage;
+    String recipeImage = "";
     String recipeTitle = "";
     String recipeBody = "";
 
