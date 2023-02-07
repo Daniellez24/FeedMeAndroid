@@ -5,6 +5,7 @@ import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.navigation.Navigation;
 
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -72,11 +73,12 @@ public class Model {
     }
 
     public void addRecipe(Recipe recipe, Listener<Void> listener) {
-        firebaseModel.addRecipe(recipe, (Void) -> {
-            refreshRecipes();
-            refreshMyRecipesList();
-            listener.onComplete(null);
-        });
+//        firebaseModel.addRecipe(recipe, (Void) -> {
+//            refreshRecipes();
+//            refreshMyRecipesList();
+//            Navigation.findNavController().popBackStack();
+//        });
+        firebaseModel.addRecipe(recipe, listener);
     }
 
     public void refreshMyRecipesList() {

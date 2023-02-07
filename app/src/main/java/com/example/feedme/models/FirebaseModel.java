@@ -180,6 +180,7 @@ public class FirebaseModel {
             @Override
             public void onSuccess(DocumentReference documentReference) {
                 Log.d("TAG", "recipe added to firestore");
+                listener.onComplete(null);
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override

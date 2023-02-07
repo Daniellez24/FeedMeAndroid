@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
 import android.os.SystemClock;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -98,6 +99,8 @@ public class UploadRecipeFragment extends Fragment {
                         recipe.setRecipeImage(url);
                     }
                     Model.instance().addRecipe(recipe, (unused) -> {
+                        Model.instance().refreshRecipes();
+                        Model.instance().refreshMyRecipesList();
                         Navigation.findNavController(v).popBackStack();
                     });
                 });

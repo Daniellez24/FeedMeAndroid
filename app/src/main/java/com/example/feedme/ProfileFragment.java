@@ -43,6 +43,8 @@ public class ProfileFragment extends Fragment {
         }));
 
         saveBtn.setOnClickListener((v -> {
+            userName.setText(userName.getText().toString());
+
             Model.instance().editUser(userName.getText().toString(), profileImg.getTransitionName(), (unused) ->{
                 Navigation.findNavController(v).popBackStack();
             });
