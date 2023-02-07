@@ -59,11 +59,11 @@ public class Model {
 
     public LiveData<List<Recipe>> getMyRecipesList() {
         myRecipesList.setValue(
-                localDb.recipeDao().getRecipeByUserId(
-                        firebaseModel.getCurrentUserId()).getValue()
+                localDb.usersRecipeDao().getAll().getValue()
         );
 
-        if (myRecipesList.getValue() == null) {
+
+        if (myRecipesList == null || myRecipesList.getValue() == null) {
             refreshMyRecipesList();
         }
         return myRecipesList;
@@ -85,10 +85,8 @@ public class Model {
                 List<Recipe> usersRecipes = (List<Recipe>) data;
                 executor.execute(() -> {
                     for (Recipe recipe : usersRecipes) {
-                        //TODO save users recipe into local db -
-                        localDb.recipeDao().insertAll(recipe);
+                        localDb.usersRecipeDao().insertAll(recipe);
                     }
-
                     myRecipesList.postValue(usersRecipes);
                 });
             }
