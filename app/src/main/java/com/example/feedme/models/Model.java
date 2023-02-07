@@ -9,6 +9,7 @@ import androidx.lifecycle.MutableLiveData;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
@@ -54,13 +55,16 @@ public class Model {
     }
 
     final public MutableLiveData<LoadingState> EventMyRecipesLoadingState = new MutableLiveData<LoadingState>(LoadingState.NOT_LOADING);
-    private LiveData<List<Recipe>> myRecipesList;
+    private MutableLiveData<List<Recipe>> myRecipesList = new MutableLiveData<>();
 
     public LiveData<List<Recipe>> getMyRecipesList() {
-        if (myRecipesList == null) {
-            //TODO: add local db
-            //myRecipesList = localDB.recipeDAO().getAll();
-            //refreshMyRecipes();
+        myRecipesList.setValue(
+                localDb.recipeDao().getRecipeByUserId(
+                        firebaseModel.getCurrentUserId()).getValue()
+        );
+
+        if (myRecipesList.getValue() == null) {
+            refreshMyRecipesList();
         }
         return myRecipesList;
     }
@@ -73,9 +77,23 @@ public class Model {
     }
 
     public void refreshMyRecipesList() {
-        EventMyRecipesLoadingState.setValue(LoadingState.LOADING);
-        // TODO: implement getLocalLastUpdate() in Recipe
-        Long localLastUpdate = Recipe.getLocalLastUpdate();
+//        EventMyRecipesLoadingState.setValue(LoadingState.LOADING);
+        String userId = firebaseModel.getCurrentUserId();
+        firebaseModel.getRecipesByUserId(userId, new Listener() {
+            @Override
+            public void onComplete(Object data) {
+                List<Recipe> usersRecipes = (List<Recipe>) data;
+                executor.execute(() -> {
+                    for (Recipe recipe : usersRecipes) {
+                        //TODO save users recipe into local db -
+                        localDb.recipeDao().insertAll(recipe);
+                    }
+
+                    myRecipesList.postValue(usersRecipes);
+                });
+            }
+        });
+//        Long localLastUpdate = Recipe.getLocalLastUpdate();
     }
 
     public String getCurrentUserId() {
@@ -88,6 +106,7 @@ public class Model {
 
 
     private MutableLiveData<List<Recipe>> recipeList = new MutableLiveData<>();
+
     public LiveData<List<Recipe>> getFeedItems() {
         recipeList.setValue(localDb.recipeDao().getAll().getValue());
 
