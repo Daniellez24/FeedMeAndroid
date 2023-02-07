@@ -33,7 +33,5 @@ public class RecipeViewHolder extends RecyclerView.ViewHolder {
         } else {
             recipeImage.setImageResource(R.drawable.cooking_icon);
         }
-//        profileImg.setBackgroundResource(recipe.getProfilePic());
-//        recipeImage.setBackgroundResource(recipe.getRecipeImage());
     }
 }
