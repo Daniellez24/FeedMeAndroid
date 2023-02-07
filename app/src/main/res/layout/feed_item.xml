@@ -7,16 +7,6 @@
     android:layout_margin="5dp"
     android:background="#7DCCF1">
 
-    <ImageView
-        android:id="@+id/feed_item_profile_image_iv"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/profile" />
-
 
     <TextView
         android:id="@+id/feed_item_title_et"
@@ -30,8 +20,8 @@
         android:text="Title"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/feed_item_profile_image_iv"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/feed_item_recipe_image_iv2" />
 
     <ScrollView
         android:id="@+id/feed_item_scroll_view_sv"
@@ -42,7 +32,7 @@
         android:layout_marginEnd="10dp"
         android:background="#7DCCF1"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/feed_item_profile_image_iv"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/feed_item_title_et">
 
         <LinearLayout
@@ -71,15 +61,13 @@
     <ImageView
         android:id="@+id/feed_item_recipe_image_iv2"
         android:layout_width="0dp"
-        android:layout_height="120dp"
+        android:layout_height="164dp"
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="10dp"
-        android:layout_marginBottom="10dp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/feed_item_profile_image_iv"
-        app:layout_constraintTop_toBottomOf="@+id/feed_item_scroll_view_sv"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/cooking_icon" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
