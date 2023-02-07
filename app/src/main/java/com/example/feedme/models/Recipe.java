@@ -1,8 +1,13 @@
 package com.example.feedme.models;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
+
+import com.example.feedme.MyApplication;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -17,6 +22,7 @@ public class Recipe {
     String recipeImage;
     String recipeTitle = "";
     String recipeBody = "";
+    public Long lastUpdated;
 
     static final String TITLE = "title";
     static final String USERID = "userId";
@@ -34,10 +40,21 @@ public class Recipe {
         this.recipeBody = recipeBody;
     }
 
+
     public static Long getLocalLastUpdate() {
-        //TODO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        return null;
+        SharedPreferences sharedPref = MyApplication.getMyContext().getSharedPreferences("TAG", Context.MODE_PRIVATE);
+        return sharedPref.getLong(LOCAL_LAST_UPDATED, 0);
     }
+
+    public static void setLocalLastUpdate(Long time) {
+        SharedPreferences sharedPref = MyApplication.getMyContext().getSharedPreferences("TAG", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putLong(LOCAL_LAST_UPDATED,time);
+        editor.commit();
+    }
+
+
+
     public String getUserId(){ return userId; }
 
     public String getRecipeImage() {
@@ -91,4 +108,7 @@ public class Recipe {
     }
 
 
+    public Long getLastUpdated() {
+        return lastUpdated;
+    }
 }
