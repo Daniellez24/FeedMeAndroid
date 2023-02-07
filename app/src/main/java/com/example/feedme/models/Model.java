@@ -5,6 +5,7 @@ import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.navigation.Navigation;
 
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -49,6 +50,10 @@ public class Model {
         firebaseModel.signoutUser(callback);
     }
 
+    public void editUser(String name, String Image, Listener<Void> callback){
+        firebaseModel.editUser(name, Image, callback);
+    }
+
     public enum LoadingState {
         LOADING,
         NOT_LOADING
@@ -68,11 +73,7 @@ public class Model {
     }
 
     public void addRecipe(Recipe recipe, Listener<Void> listener) {
-        firebaseModel.addRecipe(recipe, (Void) -> {
-            refreshRecipes();
-            refreshMyRecipesList();
-            listener.onComplete(null);
-        });
+        firebaseModel.addRecipe(recipe, listener);
     }
 
     public void refreshMyRecipesList() {
