@@ -106,6 +106,8 @@ public class UploadRecipeFragment extends Fragment {
                 });
             } else{ // save recipe without image (image not selected)
                 Model.instance().addRecipe(recipe, (unused) -> {
+                    Model.instance().refreshRecipes();
+                    Model.instance().refreshMyRecipesList();
                     Navigation.findNavController(v).popBackStack();
                 });
             }
