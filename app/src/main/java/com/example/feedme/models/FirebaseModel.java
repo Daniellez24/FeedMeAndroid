@@ -35,7 +35,7 @@ public class FirebaseModel {
     FirebaseStorage storage;
 
 
-    FirebaseModel(){
+    FirebaseModel() {
         db = FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
         storage = FirebaseStorage.getInstance();
@@ -48,9 +48,9 @@ public class FirebaseModel {
     }
 
 
-    public void signInWithEmailAndPassword(String email, String password, Model.Listener<Task<AuthResult>> callback){
+    public void signInWithEmailAndPassword(String email, String password, Model.Listener<Task<AuthResult>> callback) {
 
-        mAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+        mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 callback.onComplete(task);
@@ -59,7 +59,7 @@ public class FirebaseModel {
 
     }
 
-    public void getFeedItems(Model.Listener callback){
+    public void getFeedItems(Model.Listener callback) {
         final List<Recipe> recipes = new ArrayList<>();
 
         CollectionReference collectionReference = db.collection("recipes");
@@ -68,14 +68,14 @@ public class FirebaseModel {
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot document : task.getResult()) {
-                        Log.d("TAG",  "Test for return => " + document.getData());
+                        Log.d("TAG", "Test for return => " + document.getData());
                         Map<String, Object> data = document.getData();
                         String userId = (String) document.get("userId");
                         String recipeTitle = (String) document.get("recipeTitle");
                         String recipeBody = (String) document.get("recipeBody");
                         String recipeImage = (String) document.get("recipeImage");
 
-                        recipes.add(new Recipe(userId,recipeImage,recipeTitle,recipeBody));
+                        recipes.add(new Recipe(userId, recipeImage, recipeTitle, recipeBody));
                     }
                     callback.onComplete(recipes);
                 } else {
@@ -85,9 +85,35 @@ public class FirebaseModel {
         });
     }
 
-    public void createUserWithEmailAndPassword(String email, String password, Model.Listener<Task<AuthResult>> callback){
 
-        mAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+    public void getRecipesByUserId(String id, Model.Listener callback) {
+        final List<Recipe> myRecipes = new ArrayList<>();
+
+        CollectionReference collectionReference = db.collection(Recipe.COLLECTION);
+        collectionReference.whereEqualTo("userId", id).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        Map<String, Object> data = document.getData();
+                        String userId = (String) document.get("userId");
+                        String recipeTitle = (String) document.get("recipeTitle");
+                        String recipeBody = (String) document.get("recipeBody");
+                        String recipeImage = (String) document.get("recipeImage");
+
+                        myRecipes.add(new Recipe(userId, recipeImage, recipeTitle, recipeBody));
+                    }
+                    callback.onComplete(myRecipes);
+                } else {
+                    Log.w("TAG", "Error getting documents.", task.getException());
+                }
+            }
+        });
+    }
+
+    public void createUserWithEmailAndPassword(String email, String password, Model.Listener<Task<AuthResult>> callback) {
+
+        mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 callback.onComplete(task);
@@ -97,13 +123,13 @@ public class FirebaseModel {
 
     }
 
-    public void signoutUser(Model.Listener<Void> callback){
+    public void signoutUser(Model.Listener<Void> callback) {
         mAuth.signOut();
         callback.onComplete(null);
     }
 
     // add user to the firestore db (with default data)
-    public void addNewUser(){
+    public void addNewUser() {
         String userId = mAuth.getCurrentUser().getUid();
 
         Map<String, Object> json = new HashMap<>();
@@ -125,11 +151,11 @@ public class FirebaseModel {
         });
     }
 
-    public String getCurrentUserId(){
+    public String getCurrentUserId() {
         return mAuth.getCurrentUser().getUid();
     }
 
-    void addRecipe(Recipe recipe, Model.Listener<Void> listener){
+    void addRecipe(Recipe recipe, Model.Listener<Void> listener) {
         db.collection("recipes").add(recipe).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
             @Override
             public void onSuccess(DocumentReference documentReference) {
@@ -143,7 +169,7 @@ public class FirebaseModel {
         });
     }
 
-    void uploadImage(String name, Bitmap bitmap, Model.Listener<String> listener){
+    void uploadImage(String name, Bitmap bitmap, Model.Listener<String> listener) {
         StorageReference storageRef = storage.getReference();
         StorageReference imageRef = storageRef.child("images/" + name + ".jpg");
 
