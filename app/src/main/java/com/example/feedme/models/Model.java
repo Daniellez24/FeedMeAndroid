@@ -89,8 +89,6 @@ public class Model {
 
     private MutableLiveData<List<Recipe>> recipeList = new MutableLiveData<>();
     public LiveData<List<Recipe>> getFeedItems() {
-
-
         recipeList.setValue(localDb.recipeDao().getAll().getValue());
 
         if (recipeList.getValue() == null) {
@@ -101,18 +99,36 @@ public class Model {
 
 
     public void refreshRecipes() {
-        firebaseModel.getFeedItems(new Listener() {
-            @Override
-            public void onComplete(Object data) {
-                List<Recipe> list = (List<Recipe>) data;
-                executor.execute(() -> {
-                    for (Recipe r : list) {
-                        localDb.recipeDao().insertAll(r);
+        Long localLastUpdate = Recipe.getLocalLastUpdate();
+        // get all updated recorde from firebase since local last update
+        firebaseModel.getAllRecipesSince(localLastUpdate,list->{
+            executor.execute(()->{
+                Log.d("TAG", " firebase return : " + list.size());
+                Long time = localLastUpdate;
+                for(Recipe recipe:list){
+                    // insert new records into ROOM
+                    localDb.recipeDao().insertAll(recipe);
+                    if (time < recipe.getLastUpdated()){
+                        time = recipe.getLastUpdated();
                     }
-                    recipeList.postValue(list);
-                });
-            }
+                }
+                // update local last update
+                Recipe.setLocalLastUpdate(time);
+            });
         });
+
+//        firebaseModel.getFeedItems(new Listener() {
+//            @Override
+//            public void onComplete(Object data) {
+//                List<Recipe> list = (List<Recipe>) data;
+//                executor.execute(() -> {
+//                    for (Recipe r : list) {
+//                        localDb.recipeDao().insertAll(r);
+//                    }
+//                    recipeList.postValue(list);
+//                });
+//            }
+//        });
     }
 
 }

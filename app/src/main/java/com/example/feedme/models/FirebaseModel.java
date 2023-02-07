@@ -91,7 +91,7 @@ public class FirebaseModel {
 
     public void getAllRecipesSince(Long since, Model.Listener<List<Recipe>> callback){
         db.collection(Recipe.COLLECTION)
-                .whereGreaterThanOrEqualTo(String.valueOf(Recipe.LAST_UPDATED), new Timestamp(since,0))
+                .whereGreaterThanOrEqualTo(Recipe.LAST_UPDATED, new Timestamp(since,0))
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -100,9 +100,10 @@ public class FirebaseModel {
                         if (task.isSuccessful()){
                             QuerySnapshot jsonsList = task.getResult();
                             for (DocumentSnapshot json: jsonsList){
-                                Recipe st = Recipe.fromJson(json.getData());
-                                list.add(st);
+                                Recipe recipe = Recipe.fromJson(json.getData());
+                                list.add(recipe);
                             }
+
                         }
                         callback.onComplete(list);
                     }

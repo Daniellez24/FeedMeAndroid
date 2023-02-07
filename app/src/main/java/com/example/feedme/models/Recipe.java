@@ -8,6 +8,7 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 import com.example.feedme.MyApplication;
+import com.google.firebase.Timestamp;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -22,6 +23,8 @@ public class Recipe {
     String recipeImage;
     String recipeTitle = "";
     String recipeBody = "";
+
+
     public Long lastUpdated;
 
     static final String TITLE = "title";
@@ -93,6 +96,13 @@ public class Recipe {
 
         Recipe recipe = new Recipe(userId,image, title, body);
 
+        try{
+            Timestamp time = (Timestamp) json.get(LAST_UPDATED);
+            recipe.setLastUpdated(time.getSeconds());
+        }catch(Exception e){
+
+        }
+
         return recipe;
     }
 
@@ -111,4 +121,9 @@ public class Recipe {
     public Long getLastUpdated() {
         return lastUpdated;
     }
+
+    public void setLastUpdated(Long lastUpdated) {
+        this.lastUpdated = lastUpdated;
+    }
+
 }
