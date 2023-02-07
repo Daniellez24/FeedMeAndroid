@@ -73,11 +73,6 @@ public class Model {
     }
 
     public void addRecipe(Recipe recipe, Listener<Void> listener) {
-//        firebaseModel.addRecipe(recipe, (Void) -> {
-//            refreshRecipes();
-//            refreshMyRecipesList();
-//            Navigation.findNavController().popBackStack();
-//        });
         firebaseModel.addRecipe(recipe, listener);
     }
 
