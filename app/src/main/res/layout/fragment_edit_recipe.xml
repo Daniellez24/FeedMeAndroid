@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#A0D9F3"
+    tools:context=".EditRecipeFragment">
+
+    <EditText
+        android:id="@+id/editRecipeFragment_title_et2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
+        android:layout_marginEnd="20dp"
+        android:ems="10"
+        android:gravity="top"
+        android:inputType="textPersonName"
+        android:text="Title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.507"
+        app:layout_constraintStart_toEndOf="@+id/editRecipeFragment_title_tv"
+        app:layout_constraintTop_toTopOf="@+id/editRecipeFragment_title_tv" />
+
+    <TextView
+        android:id="@+id/editRecipeFragment_recipe_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="100dp"
+        android:text="Recipe"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editRecipeFragment_title_tv" />
+
+    <EditText
+        android:id="@+id/editRecipeFragment_recipe_et"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="20dp"
+        android:ems="10"
+        android:gravity="top"
+        android:inputType="textPersonName"
+        android:text="Recipe"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/editRecipeFragment_recipe_tv"
+        app:layout_constraintTop_toTopOf="@+id/editRecipeFragment_recipe_tv" />
+
+    <ImageView
+        android:id="@+id/editRecipeFragment_recipe_img"
+        android:layout_width="0dp"
+        android:layout_height="165dp"
+        android:scaleType="fitCenter"
+        android:src="@android:mipmap/sym_def_app_icon"
+        app:layout_constraintBottom_toTopOf="@+id/uploadFragment_title_et"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/editRecipeFragment_camera_btn"
+        android:layout_width="54dp"
+        android:layout_height="43dp"
+        android:layout_marginEnd="5dp"
+        android:src="@drawable/ic_baseline_photo_camera_24"
+        app:layout_constraintBottom_toBottomOf="@+id/editRecipeFragment_recipe_img"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <ImageButton
+        android:id="@+id/editRecipeFragment_gallery_btn"
+        android:layout_width="62dp"
+        android:layout_height="43dp"
+        android:layout_marginStart="5dp"
+        android:src="@drawable/ic_baseline_image_search_24"
+        app:layout_constraintBottom_toBottomOf="@+id/editRecipeFragment_recipe_img"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/editRecipeFragment_title_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="70dp"
+        android:text="Title"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editRecipeFragment_recipe_img" />
+
+    <Button
+        android:id="@+id/editRecipeFragment_update_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="120dp"
+        android:text="Update Recipe"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editRecipeFragment_recipe_et" />
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -65,7 +65,7 @@
         android:id="@+id/uploadFragment_recepie_tv"
         android:layout_width="0dp"
         android:layout_height="50dp"
-        android:text="Recepie"
+        android:text="Recipe"
         app:layout_constraintEnd_toEndOf="@+id/uploadFragment_title_tv"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="@+id/uploadFragment_title_tv"
