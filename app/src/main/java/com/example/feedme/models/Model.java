@@ -54,6 +54,10 @@ public class Model {
         firebaseModel.editUser(name, Image, callback);
     }
 
+    public void getUserProfileData(Listener<User> listener){
+        firebaseModel.getUserProfileData(listener);
+    }
+
     public enum LoadingState {
         LOADING,
         NOT_LOADING

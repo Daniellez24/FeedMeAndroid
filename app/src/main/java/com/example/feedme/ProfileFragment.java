@@ -24,6 +24,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.example.feedme.models.Model;
 import com.example.feedme.models.User;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -38,7 +39,7 @@ public class ProfileFragment extends Fragment {
 
     ActivityResultLauncher<Void> cameraLauncher;
     ActivityResultLauncher<String> galleryLauncher;
-    Boolean isImageSelected;
+    Boolean isImageSelected = false;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -79,6 +80,15 @@ public class ProfileFragment extends Fragment {
         cameraButton = view.findViewById(R.id.profileFragment_camera_Ib);
         galleryButton = view.findViewById(R.id.profileFragment_gallery_Ib);
 
+        // show the current user data when entering the profile
+        Model.instance().getUserProfileData((user) -> {
+            userName.setText(user.getName());
+            if(user.getImage() != ""){
+                Picasso.get().load(user.getImage()).placeholder(R.drawable.profile).into(profileImg);
+                isImageSelected = true;
+            }
+        });
+
         logoutBtn.setOnClickListener((v -> {
             Model.instance().signoutUser((x) -> startActivity(new Intent(getActivity(), LoginActivity.class)));
         }));
@@ -103,7 +113,7 @@ public class ProfileFragment extends Fragment {
                     });
                 });
             } else { // save user edited data without image
-                Model.instance().editUser(userName.getText().toString(), "", (unused) ->{
+                Model.instance().editUser(userName.getText().toString(), user.image, (unused) ->{
                     Navigation.findNavController(v).popBackStack();
                 });
             }
