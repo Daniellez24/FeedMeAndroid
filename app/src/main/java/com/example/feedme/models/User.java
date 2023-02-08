@@ -19,4 +19,8 @@ public class User {
         this.image = image;
         this.recipes = recipes;
     }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
 }

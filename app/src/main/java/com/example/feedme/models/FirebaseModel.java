@@ -210,7 +210,8 @@ public class FirebaseModel {
                 imageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                     @Override
                     public void onSuccess(Uri uri) {
-                        listener.onComplete(uri.toString());
+                        if(listener != null)
+                            listener.onComplete(uri.toString());
                     }
                 });
             }
