@@ -14,6 +14,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -171,6 +172,22 @@ public class FirebaseModel {
 
     }
 
+
+    public void getUserProfileData(Model.Listener<User> listener){
+        db.collection("users")
+                .document(mAuth.getCurrentUser().getUid())
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        User user = documentSnapshot.toObject(User.class);
+                        if(user != null){
+                            listener.onComplete(user);
+                        }
+                    }
+                });
+    }
+
     public String getCurrentUserId() {
         return mAuth.getCurrentUser().getUid();
     }
@@ -210,7 +227,8 @@ public class FirebaseModel {
                 imageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                     @Override
                     public void onSuccess(Uri uri) {
-                        listener.onComplete(uri.toString());
+                        if(listener != null)
+                            listener.onComplete(uri.toString());
                     }
                 });
             }
