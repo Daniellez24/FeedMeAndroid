@@ -28,13 +28,12 @@ public class EditRecipeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-//        return inflater.inflate(R.layout.fragment_edit_recipe, container, false);
+
         binding = FragmentEditRecipeBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
 
         Log.d("EDIT", recipe.getRecipeTitle() + ", " + recipe.getRecipeBody());
-
+        //TODO: show recipe details in the editRecipe page, and then change them in firestore and storage
 
         return view;
     }
