@@ -23,7 +23,7 @@ public class Recipe implements Serializable {
     String recipeImage = "";
     String recipeTitle = "";
     String recipeBody = "";
-
+    String recipeId = "";
 
     public Long lastUpdated;
 
@@ -43,6 +43,13 @@ public class Recipe implements Serializable {
         this.recipeBody = recipeBody;
     }
 
+//    public Recipe(@NonNull String userId, String recipeImage, String recipeTitle, String recipeBody, String recipeId) {
+//        this.userId = userId;
+//        this.recipeImage = recipeImage;
+//        this.recipeTitle = recipeTitle;
+//        this.recipeBody = recipeBody;
+//        this.recipeId = recipeId;
+//    }
 
     public static Long getLocalLastUpdate() {
         SharedPreferences sharedPref = MyApplication.getMyContext().getSharedPreferences("TAG", Context.MODE_PRIVATE);
@@ -56,7 +63,13 @@ public class Recipe implements Serializable {
         editor.commit();
     }
 
+    public String getRecipeId() {
+        return recipeId;
+    }
 
+    public void setRecipeId(String recipeId) {
+        this.recipeId = recipeId;
+    }
 
     public String getUserId(){ return userId; }
 

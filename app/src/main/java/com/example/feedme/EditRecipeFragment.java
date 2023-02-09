@@ -1,8 +1,15 @@
 package com.example.feedme;
 
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,12 +17,18 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.feedme.databinding.FragmentEditRecipeBinding;
+import com.example.feedme.models.Model;
 import com.example.feedme.models.Recipe;
+import com.squareup.picasso.Picasso;
 
 public class EditRecipeFragment extends Fragment {
 
     FragmentEditRecipeBinding binding;
     Recipe recipe;
+
+    ActivityResultLauncher<Void> cameraLauncher;
+    ActivityResultLauncher<String> galleryLauncher;
+    Boolean isImageSelected = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -23,6 +36,26 @@ public class EditRecipeFragment extends Fragment {
 
         EditRecipeFragmentArgs args = EditRecipeFragmentArgs.fromBundle(getArguments());
         recipe = args.getRecipe();
+
+        cameraLauncher = registerForActivityResult(new ActivityResultContracts.TakePicturePreview(), new ActivityResultCallback<Bitmap>() {
+            @Override
+            public void onActivityResult(Bitmap result) {
+                if(result != null){
+                    binding.editRecipeFragmentRecipeImg.setImageBitmap(result);
+                    isImageSelected = true;
+                }
+            }
+        });
+
+        galleryLauncher = registerForActivityResult(new ActivityResultContracts.GetContent(), new ActivityResultCallback<Uri>() {
+            @Override
+            public void onActivityResult(Uri result) {
+                if(result != null){
+                    binding.editRecipeFragmentRecipeImg.setImageURI(result);
+                    isImageSelected = true;
+                }
+            }
+        });
     }
 
     @Override
@@ -34,6 +67,55 @@ public class EditRecipeFragment extends Fragment {
 
         Log.d("EDIT", recipe.getRecipeTitle() + ", " + recipe.getRecipeBody());
         //TODO: show recipe details in the editRecipe page, and then change them in firestore and storage
+
+        // show current recipe data when entering the selected recipe
+        Model.instance().getSelectedRecipeData(recipe.getRecipeId(), (recipe) -> {
+            binding.editRecipeFragmentTitleEt.setText(recipe.getRecipeTitle());
+            binding.editRecipeFragmentRecipeEt.setText(recipe.getRecipeBody());
+            if(recipe.getRecipeImage() != ""){
+                Picasso.get().load(recipe.getRecipeImage()).placeholder(R.drawable.cooking_icon).into(binding.editRecipeFragmentRecipeImg);
+                isImageSelected = true;
+            }
+        });
+
+        binding.editRecipeFragmentUpdateBtn.setOnClickListener((v) -> {
+            binding.editRecipeFragmentTitleEt.setText(binding.editRecipeFragmentTitleEt.getText().toString());
+            binding.editRecipeFragmentRecipeEt.setText(binding.editRecipeFragmentRecipeEt.getText().toString());
+            String title = binding.editRecipeFragmentTitleEt.getText().toString();
+            String body = binding.editRecipeFragmentRecipeEt.getText().toString();
+            String userId = recipe.getUserId();
+//            String recipeId = recipe.getRecipeId();
+            Recipe r = new Recipe(userId, "", title, body);
+            r.setRecipeId(recipe.getRecipeId());
+
+            if(isImageSelected){
+                binding.editRecipeFragmentRecipeImg.setDrawingCacheEnabled(true);
+                binding.editRecipeFragmentRecipeImg.buildDrawingCache();
+                Bitmap bitmap = ((BitmapDrawable)binding.editRecipeFragmentRecipeImg.getDrawable()).getBitmap();
+
+                Model.instance().uploadImage(r.getRecipeId(), bitmap, url -> {
+                    if(url != null){
+                        r.setRecipeImage(url);
+                    }
+                    Model.instance().editRecipe(r, (unused) -> {
+                        Navigation.findNavController(v).popBackStack();
+                    });
+                });
+            } else {
+                Model.instance().editRecipe(r, (unused) -> {
+                    Navigation.findNavController(v).popBackStack();
+                });
+            }
+        });
+
+
+        binding.editRecipeFragmentCameraBtn.setOnClickListener((v) -> {
+            cameraLauncher.launch(null);
+        });
+
+        binding.editRecipeFragmentGalleryBtn.setOnClickListener((v) -> {
+            galleryLauncher.launch("image/*");
+        });
 
         return view;
     }

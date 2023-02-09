@@ -172,6 +172,22 @@ public class FirebaseModel {
 
     }
 
+    public void editRecipe(Recipe recipe, Model.Listener<Void> listener){
+        Map<String, Object> json = new HashMap<>();
+        json.put("userId", recipe.getUserId());
+        json.put("recipeTitle", recipe.getRecipeTitle());
+        json.put("recipeImage", recipe.getRecipeImage());
+        json.put("recipeId", recipe.getRecipeId());
+        json.put("recipeBody", recipe.getRecipeBody());
+
+        db.collection("recipes").document(recipe.getRecipeId()).update(json).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                listener.onComplete(null);
+            }
+        });
+    }
+
 
     public void getUserProfileData(Model.Listener<User> listener){
         db.collection("users")
@@ -188,6 +204,21 @@ public class FirebaseModel {
                 });
     }
 
+    public void getSelectedRecipeData(String recipeId ,Model.Listener<Recipe> listener){
+        db.collection("recipes")
+                .document(recipeId)
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        Recipe recipe = documentSnapshot.toObject(Recipe.class);
+                        if(recipe != null){
+                            listener.onComplete(recipe);
+                        }
+                    }
+                });
+    }
+
     public String getCurrentUserId() {
         return mAuth.getCurrentUser().getUid();
     }
@@ -197,6 +228,8 @@ public class FirebaseModel {
             @Override
             public void onSuccess(DocumentReference documentReference) {
                 Log.d("TAG", "recipe added to firestore");
+                recipe.setRecipeId(documentReference.getId());
+                documentReference.update("recipeId", documentReference.getId());
                 listener.onComplete(null);
             }
         }).addOnFailureListener(new OnFailureListener() {

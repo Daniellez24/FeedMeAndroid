@@ -8,7 +8,7 @@
     tools:context=".EditRecipeFragment">
 
     <EditText
-        android:id="@+id/editRecipeFragment_title_et2"
+        android:id="@+id/editRecipeFragment_title_et"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="50dp"
@@ -92,10 +92,8 @@
         android:id="@+id/editRecipeFragment_update_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:layout_marginBottom="100dp"
+        android:layout_marginTop="40dp"
         android:text="Update Recipe"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editRecipeFragment_recipe_et" />
