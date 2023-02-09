@@ -58,6 +58,10 @@ public class Model {
         firebaseModel.editRecipe(recipe, listener);
     }
 
+    public void deleteRecipe(Recipe recipe, Listener<Void> listener){
+        firebaseModel.deleteRecipe(recipe, listener);
+    }
+
     public void getUserProfileData(Listener<User> listener){
         firebaseModel.getUserProfileData(listener);
     }

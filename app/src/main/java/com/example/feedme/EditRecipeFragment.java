@@ -1,5 +1,6 @@
 package com.example.feedme;
 
+import android.app.AlertDialog;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
@@ -15,6 +16,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.feedme.databinding.FragmentEditRecipeBinding;
 import com.example.feedme.models.Model;
@@ -65,9 +67,6 @@ public class EditRecipeFragment extends Fragment {
         binding = FragmentEditRecipeBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
 
-        Log.d("EDIT", recipe.getRecipeTitle() + ", " + recipe.getRecipeBody());
-        //TODO: show recipe details in the editRecipe page, and then change them in firestore and storage
-
         // show current recipe data when entering the selected recipe
         Model.instance().getSelectedRecipeData(recipe.getRecipeId(), (recipe) -> {
             binding.editRecipeFragmentTitleEt.setText(recipe.getRecipeTitle());
@@ -86,7 +85,6 @@ public class EditRecipeFragment extends Fragment {
             String userId = recipe.getUserId();
             String recipeId = recipe.getRecipeId();
             Recipe r = new Recipe(userId, "", title, body, recipeId);
-//            r.setRecipeId(recipe.getRecipeId());
 
             if(isImageSelected){
                 binding.editRecipeFragmentRecipeImg.setDrawingCacheEnabled(true);
@@ -112,6 +110,14 @@ public class EditRecipeFragment extends Fragment {
             }
         });
 
+        binding.editRecipeFragmentDeleteBtn.setOnClickListener((v) -> {
+            Model.instance().deleteRecipe(recipe, (unused) -> {
+                Navigation.findNavController(v).popBackStack();
+                Model.instance().refreshRecipes();
+                Model.instance().refreshMyRecipesList();
+                Toast.makeText(getContext(), "Recipe deleted successfully!", Toast.LENGTH_SHORT).show();
+            });
+        });
 
         binding.editRecipeFragmentCameraBtn.setOnClickListener((v) -> {
             cameraLauncher.launch(null);
