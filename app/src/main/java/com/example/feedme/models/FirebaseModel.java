@@ -191,6 +191,19 @@ public class FirebaseModel {
     }
 
 
+    public void deleteRecipe(Recipe recipe, Model.Listener<Void> listener){
+        db.collection("recipes")
+                .document(recipe.getRecipeId())
+                .delete()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        listener.onComplete(null);
+                    }
+                });
+    }
+
+
     public void getUserProfileData(Model.Listener<User> listener){
         db.collection("users")
                 .document(mAuth.getCurrentUser().getUid())
