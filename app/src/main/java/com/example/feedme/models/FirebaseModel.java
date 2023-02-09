@@ -75,8 +75,9 @@ public class FirebaseModel {
                         String recipeTitle = (String) document.get("recipeTitle");
                         String recipeBody = (String) document.get("recipeBody");
                         String recipeImage = (String) document.get("recipeImage");
+                        String recipeId = (String) document.get("recipeId");
 
-                        recipes.add(new Recipe(userId, recipeImage, recipeTitle, recipeBody));
+                        recipes.add(new Recipe(userId, recipeImage, recipeTitle, recipeBody, recipeId));
                     }
                     callback.onComplete(recipes);
                 } else {
@@ -101,8 +102,9 @@ public class FirebaseModel {
                         String recipeTitle = (String) document.get("recipeTitle");
                         String recipeBody = (String) document.get("recipeBody");
                         String recipeImage = (String) document.get("recipeImage");
+                        String recipeId = (String) document.get("recipeId");
 
-                        myRecipes.add(new Recipe(userId, recipeImage, recipeTitle, recipeBody));
+                        myRecipes.add(new Recipe(userId, recipeImage, recipeTitle, recipeBody, recipeId));
                     }
                     callback.onComplete(myRecipes);
                 } else {
@@ -222,6 +224,7 @@ public class FirebaseModel {
     public String getCurrentUserId() {
         return mAuth.getCurrentUser().getUid();
     }
+
 
     void addRecipe(Recipe recipe, Model.Listener<Void> listener) {
         db.collection("recipes").add(recipe).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {

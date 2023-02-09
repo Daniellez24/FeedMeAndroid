@@ -84,9 +84,9 @@ public class EditRecipeFragment extends Fragment {
             String title = binding.editRecipeFragmentTitleEt.getText().toString();
             String body = binding.editRecipeFragmentRecipeEt.getText().toString();
             String userId = recipe.getUserId();
-//            String recipeId = recipe.getRecipeId();
-            Recipe r = new Recipe(userId, "", title, body);
-            r.setRecipeId(recipe.getRecipeId());
+            String recipeId = recipe.getRecipeId();
+            Recipe r = new Recipe(userId, "", title, body, recipeId);
+//            r.setRecipeId(recipe.getRecipeId());
 
             if(isImageSelected){
                 binding.editRecipeFragmentRecipeImg.setDrawingCacheEnabled(true);
@@ -99,11 +99,15 @@ public class EditRecipeFragment extends Fragment {
                     }
                     Model.instance().editRecipe(r, (unused) -> {
                         Navigation.findNavController(v).popBackStack();
+                        Model.instance().refreshRecipes();
+                        Model.instance().refreshMyRecipesList();
                     });
                 });
             } else {
                 Model.instance().editRecipe(r, (unused) -> {
                     Navigation.findNavController(v).popBackStack();
+                    Model.instance().refreshRecipes();
+                    Model.instance().refreshMyRecipesList();
                 });
             }
         });

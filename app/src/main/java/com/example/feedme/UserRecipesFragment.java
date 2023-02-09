@@ -21,7 +21,6 @@ import com.example.feedme.models.Recipe;
 import com.example.feedme.viewModels.MyRecipesFragmentViewModel;
 
 public class UserRecipesFragment extends Fragment {
-    //TODO: on edit, save edited recipe in the db
 
     FragmentUserRecipesBinding binding;
     MyRecipesRecyclerAdapter adapter;

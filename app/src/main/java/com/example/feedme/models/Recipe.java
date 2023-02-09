@@ -31,25 +31,30 @@ public class Recipe implements Serializable {
     static final String USERID = "userId";
     static final String IMAGE = "image";
     static final String BODY = "body";
+    static final String RECIPEID = "recipeId";
     static final String COLLECTION = "recipes";
     static final String LAST_UPDATED = "lastUpdated";
     static final String LOCAL_LAST_UPDATED = "recipes_local_last_updated";
 
 
-    public Recipe(String userId, String recipeImage, String recipeTitle, String recipeBody) {
-        this.userId = userId;
-        this.recipeImage = recipeImage;
-        this.recipeTitle = recipeTitle;
-        this.recipeBody = recipeBody;
-    }
-
-//    public Recipe(@NonNull String userId, String recipeImage, String recipeTitle, String recipeBody, String recipeId) {
+//    public Recipe(String userId, String recipeImage, String recipeTitle, String recipeBody) {
 //        this.userId = userId;
 //        this.recipeImage = recipeImage;
 //        this.recipeTitle = recipeTitle;
 //        this.recipeBody = recipeBody;
-//        this.recipeId = recipeId;
 //    }
+
+    public Recipe(@NonNull String userId, String recipeImage, String recipeTitle, String recipeBody, String recipeId) {
+        this.userId = userId;
+        this.recipeImage = recipeImage;
+        this.recipeTitle = recipeTitle;
+        this.recipeBody = recipeBody;
+        this.recipeId = recipeId;
+    }
+
+    public Recipe(){
+
+    }
 
     public static Long getLocalLastUpdate() {
         SharedPreferences sharedPref = MyApplication.getMyContext().getSharedPreferences("TAG", Context.MODE_PRIVATE);
@@ -106,8 +111,9 @@ public class Recipe implements Serializable {
         String title = (String) json.get(TITLE);
         String body = (String) json.get(BODY);
         String image = (String) json.get(IMAGE);
+        String recipeId = (String) json.get(RECIPEID);
 
-        Recipe recipe = new Recipe(userId,image, title, body);
+        Recipe recipe = new Recipe(userId,image, title, body, recipeId);
 
         try{
             Timestamp time = (Timestamp) json.get(LAST_UPDATED);
@@ -126,6 +132,7 @@ public class Recipe implements Serializable {
         json.put(TITLE, getRecipeTitle());
         json.put(BODY, getRecipeBody());
         json.put(IMAGE, getRecipeImage());
+        json.put(RECIPEID, getRecipeId());
 
         return json;
     }
