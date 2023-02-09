@@ -54,8 +54,16 @@ public class Model {
         firebaseModel.editUser(name, Image, callback);
     }
 
+    public void editRecipe(Recipe recipe, Listener<Void> listener){
+        firebaseModel.editRecipe(recipe, listener);
+    }
+
     public void getUserProfileData(Listener<User> listener){
         firebaseModel.getUserProfileData(listener);
+    }
+
+    public void getSelectedRecipeData(String recipeId ,Listener<Recipe> listener){
+        firebaseModel.getSelectedRecipeData(recipeId, listener);
     }
 
     public enum LoadingState {

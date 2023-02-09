@@ -87,7 +87,7 @@ public class UploadRecipeFragment extends Fragment {
             String title = recipeTitle.getText().toString();
             String body = recipeBody.getText().toString();
             String userId = Model.instance().getCurrentUserId();
-            Recipe recipe = new Recipe(userId, "", title, body);
+            Recipe recipe = new Recipe(userId, "", title, body, "");
 
             if(isImageSelected){
                 recipeImage.setDrawingCacheEnabled(true);

@@ -22,12 +22,20 @@ public class MyRecipeViewHolder extends RecyclerView.ViewHolder {
     ImageView recipeImage;
     List<Recipe> data;
 
-    public MyRecipeViewHolder(@NonNull View itemView, List<Recipe> data) {
+    public MyRecipeViewHolder(@NonNull View itemView, MyRecipesRecyclerAdapter.OnItemClickListener listener, List<Recipe> data) {
         super(itemView);
         this.data = data;
         title = itemView.findViewById(R.id.feed_item_title_et);
         body = itemView.findViewById(R.id.feed_item_recipe_body_et);
         recipeImage = itemView.findViewById(R.id.feed_item_recipe_image_iv2);
+
+        itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int pos = getAdapterPosition();
+                listener.onItemClick(pos);
+            }
+        });
 
     }
 
