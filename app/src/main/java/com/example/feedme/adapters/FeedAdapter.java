@@ -18,14 +18,16 @@ import java.util.List;
 
 public class FeedAdapter extends RecyclerView.Adapter<RecipeViewHolder> {
     private List<Recipe> recipes = new LinkedList<>();
+    LayoutInflater inflater;
 
     public void setData(List<Recipe> data) {
         this.recipes = data;
         notifyDataSetChanged();
     }
 
-    public FeedAdapter(List<Recipe> recipes) {
+    public FeedAdapter(LayoutInflater inflater, List<Recipe> recipes) {
         this.recipes = recipes;
+        this.inflater = inflater;
     }
 
     @NonNull
