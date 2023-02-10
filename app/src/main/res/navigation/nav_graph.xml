@@ -19,7 +19,11 @@
         android:id="@+id/userRecipesFragment"
         android:name="com.example.feedme.UserRecipesFragment"
         android:label="My Recipes"
-        tools:layout="@layout/fragment_user_recipes" />
+        tools:layout="@layout/fragment_user_recipes" >
+        <action
+            android:id="@+id/action_userRecipesFragment_to_editRecipeFragment"
+            app:destination="@id/editRecipeFragment" />
+    </fragment>
     <fragment
         android:id="@+id/uploadRecipeFragment"
         android:name="com.example.feedme.UploadRecipeFragment"
@@ -31,4 +35,13 @@
         android:name="com.example.feedme.TipsFragment"
         android:label="Tips"
         tools:layout="@layout/fragment_tips" />
+    <fragment
+        android:id="@+id/editRecipeFragment"
+        android:name="com.example.feedme.EditRecipeFragment"
+        android:label="Edit Recipe"
+        tools:layout="@layout/fragment_edit_recipe" >
+        <argument
+            android:name="recipe"
+            app:argType="com.example.feedme.models.Recipe" />
+    </fragment>
 </navigation>

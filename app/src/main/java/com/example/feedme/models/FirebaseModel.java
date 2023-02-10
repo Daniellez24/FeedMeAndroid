@@ -14,6 +14,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -74,8 +75,9 @@ public class FirebaseModel {
                         String recipeTitle = (String) document.get("recipeTitle");
                         String recipeBody = (String) document.get("recipeBody");
                         String recipeImage = (String) document.get("recipeImage");
+                        String recipeId = (String) document.get("recipeId");
 
-                        recipes.add(new Recipe(userId, recipeImage, recipeTitle, recipeBody));
+                        recipes.add(new Recipe(userId, recipeImage, recipeTitle, recipeBody, recipeId));
                     }
                     callback.onComplete(recipes);
                 } else {
@@ -100,8 +102,9 @@ public class FirebaseModel {
                         String recipeTitle = (String) document.get("recipeTitle");
                         String recipeBody = (String) document.get("recipeBody");
                         String recipeImage = (String) document.get("recipeImage");
+                        String recipeId = (String) document.get("recipeId");
 
-                        myRecipes.add(new Recipe(userId, recipeImage, recipeTitle, recipeBody));
+                        myRecipes.add(new Recipe(userId, recipeImage, recipeTitle, recipeBody, recipeId));
                     }
                     callback.onComplete(myRecipes);
                 } else {
@@ -151,15 +154,99 @@ public class FirebaseModel {
         });
     }
 
+    public void editUser(String name, String image, Model.Listener<Void> callback){
+        String userId = mAuth.getCurrentUser().getUid();
+
+        Map<String, Object> json = new HashMap<>();
+        json.put("id", userId);
+        if(name != null)
+            json.put("name", name);
+        if(image != null)
+            json.put("image", image);
+
+        // update new fields
+        db.collection("users").document(userId).update(json).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                callback.onComplete(null);
+            }
+        });
+
+    }
+
+    public void editRecipe(Recipe recipe, Model.Listener<Void> listener){
+        Map<String, Object> json = new HashMap<>();
+        json.put("userId", recipe.getUserId());
+        json.put("recipeTitle", recipe.getRecipeTitle());
+        json.put("recipeImage", recipe.getRecipeImage());
+        json.put("recipeId", recipe.getRecipeId());
+        json.put("recipeBody", recipe.getRecipeBody());
+
+        db.collection("recipes").document(recipe.getRecipeId()).update(json).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                listener.onComplete(null);
+            }
+        });
+    }
+
+
+    public void deleteRecipe(Recipe recipe, Model.Listener<Void> listener){
+        db.collection("recipes")
+                .document(recipe.getRecipeId())
+                .delete()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        listener.onComplete(null);
+                    }
+                });
+    }
+
+
+    public void getUserProfileData(Model.Listener<User> listener){
+        db.collection("users")
+                .document(mAuth.getCurrentUser().getUid())
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        User user = documentSnapshot.toObject(User.class);
+                        if(user != null){
+                            listener.onComplete(user);
+                        }
+                    }
+                });
+    }
+
+    public void getSelectedRecipeData(String recipeId ,Model.Listener<Recipe> listener){
+        db.collection("recipes")
+                .document(recipeId)
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        Recipe recipe = documentSnapshot.toObject(Recipe.class);
+                        if(recipe != null){
+                            listener.onComplete(recipe);
+                        }
+                    }
+                });
+    }
+
     public String getCurrentUserId() {
         return mAuth.getCurrentUser().getUid();
     }
+
 
     void addRecipe(Recipe recipe, Model.Listener<Void> listener) {
         db.collection("recipes").add(recipe).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
             @Override
             public void onSuccess(DocumentReference documentReference) {
                 Log.d("TAG", "recipe added to firestore");
+                recipe.setRecipeId(documentReference.getId());
+                documentReference.update("recipeId", documentReference.getId());
+                listener.onComplete(null);
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -189,7 +276,8 @@ public class FirebaseModel {
                 imageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                     @Override
                     public void onSuccess(Uri uri) {
-                        listener.onComplete(uri.toString());
+                        if(listener != null)
+                            listener.onComplete(uri.toString());
                     }
                 });
             }
