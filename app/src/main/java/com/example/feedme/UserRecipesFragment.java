@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.example.feedme.adapters.MyRecipesRecyclerAdapter;
 import com.example.feedme.databinding.FragmentUserRecipesBinding;
+import com.example.feedme.models.Model;
 import com.example.feedme.models.Recipe;
 import com.example.feedme.viewModels.MyRecipesFragmentViewModel;
 
@@ -39,10 +40,6 @@ public class UserRecipesFragment extends Fragment {
         adapter = new MyRecipesRecyclerAdapter(getLayoutInflater(), viewModel.getData().getValue());
         binding.userRecpieFragmentRecipesRv.setAdapter(adapter);
 
-        viewModel.getData().observe(getViewLifecycleOwner(), list -> {
-            adapter.setData(list);
-        });
-
         adapter.setOnItemClickListener(new MyRecipesRecyclerAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int pos) {
@@ -52,7 +49,17 @@ public class UserRecipesFragment extends Fragment {
             }
         });
 
-        //TODO: swipe refresh?
+        viewModel.getData().observe(getViewLifecycleOwner(), list -> {
+            adapter.setData(list);
+        });
+
+        Model.instance().EventMyRecipesLoadingState.observe(getViewLifecycleOwner(), status -> {
+            binding.swipeRefresh.setRefreshing(status == Model.LoadingState.LOADING);
+        });
+
+        binding.swipeRefresh.setOnRefreshListener(() -> {
+            Model.instance().refreshMyRecipesList();
+        });
 
         return view;
     }
