@@ -59,7 +59,7 @@ public class Model {
 
     public LiveData<List<Recipe>> getMyRecipesList() {
         myRecipesList.setValue(
-                localDb.usersRecipeDao().getAll().getValue()
+                localDb.recipeDao().getRecipeByUserId(firebaseModel.getCurrentUserId()).getValue()
         );
         if (myRecipesList == null || myRecipesList.getValue() == null) {
             refreshMyRecipesList();
@@ -83,7 +83,7 @@ public class Model {
                 List<Recipe> usersRecipes = (List<Recipe>) data;
                 executor.execute(() -> {
                     for (Recipe recipe : usersRecipes) {
-                        localDb.usersRecipeDao().insertAll(recipe);
+                        localDb.recipeDao().insertAll(recipe);
                     }
                     myRecipesList.postValue(usersRecipes);
                 });
