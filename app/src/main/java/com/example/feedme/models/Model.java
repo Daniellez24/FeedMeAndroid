@@ -76,6 +76,7 @@ public class Model {
     }
 
     final public MutableLiveData<LoadingState> EventMyRecipesLoadingState = new MutableLiveData<LoadingState>(LoadingState.NOT_LOADING);
+    final public MutableLiveData<LoadingState> EventFeedLoadingState = new MutableLiveData<LoadingState>(LoadingState.NOT_LOADING);
     private MutableLiveData<List<Recipe>> myRecipesList = new MutableLiveData<>();
 
     public LiveData<List<Recipe>> getMyRecipesList() {
@@ -93,7 +94,7 @@ public class Model {
     }
 
     public void refreshMyRecipesList() {
-        String userId = firebaseModel.getCurrentUserId();
+        String userId = getCurrentUserId();
         firebaseModel.getRecipesByUserId(userId, new Listener() {
             @Override
             public void onComplete(Object data) {

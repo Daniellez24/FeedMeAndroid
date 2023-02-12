@@ -60,6 +60,70 @@ public class FirebaseModel {
 
     }
 
+    public void createUserWithEmailAndPassword(String email, String password, Model.Listener<Task<AuthResult>> callback) {
+
+        mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                callback.onComplete(task);
+                addNewUser();
+            }
+        });
+
+    }
+
+    public String getCurrentUserId() {
+        return mAuth.getCurrentUser().getUid();
+    }
+
+    public void signoutUser(Model.Listener<Void> callback) {
+        mAuth.signOut();
+        callback.onComplete(null);
+    }
+
+    // add user to the firestore db (with default data)
+    public void addNewUser() {
+        String userId = mAuth.getCurrentUser().getUid();
+
+        Map<String, Object> json = new HashMap<>();
+        json.put("id", userId);
+        json.put("name", "name");
+        json.put("image", "");
+        json.put("recipes", new ArrayList<>());
+
+        db.collection("users").document(userId).set(json).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                Log.i("TAG", "success");
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.i("TAG", "failure");
+            }
+        });
+    }
+
+    public void editUser(String name, String image, Model.Listener<Void> callback){
+        String userId = mAuth.getCurrentUser().getUid();
+
+        Map<String, Object> json = new HashMap<>();
+        json.put("id", userId);
+        if(name != null)
+            json.put("name", name);
+        if(image != null)
+            json.put("image", image);
+
+        // update new fields
+        db.collection("users").document(userId).update(json).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                callback.onComplete(null);
+            }
+        });
+
+    }
+
     public void getFeedItems(Model.Listener callback) {
         final List<Recipe> recipes = new ArrayList<>();
 
@@ -114,65 +178,6 @@ public class FirebaseModel {
         });
     }
 
-    public void createUserWithEmailAndPassword(String email, String password, Model.Listener<Task<AuthResult>> callback) {
-
-        mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                callback.onComplete(task);
-                addNewUser();
-            }
-        });
-
-    }
-
-    public void signoutUser(Model.Listener<Void> callback) {
-        mAuth.signOut();
-        callback.onComplete(null);
-    }
-
-    // add user to the firestore db (with default data)
-    public void addNewUser() {
-        String userId = mAuth.getCurrentUser().getUid();
-
-        Map<String, Object> json = new HashMap<>();
-        json.put("id", userId);
-        json.put("name", "name");
-        json.put("image", "");
-        json.put("recipes", new ArrayList<>());
-
-        db.collection("users").document(userId).set(json).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void unused) {
-                Log.i("TAG", "success");
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.i("TAG", "failure");
-            }
-        });
-    }
-
-    public void editUser(String name, String image, Model.Listener<Void> callback){
-        String userId = mAuth.getCurrentUser().getUid();
-
-        Map<String, Object> json = new HashMap<>();
-        json.put("id", userId);
-        if(name != null)
-            json.put("name", name);
-        if(image != null)
-            json.put("image", image);
-
-        // update new fields
-        db.collection("users").document(userId).update(json).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void unused) {
-                callback.onComplete(null);
-            }
-        });
-
-    }
 
     public void editRecipe(Recipe recipe, Model.Listener<Void> listener){
         Map<String, Object> json = new HashMap<>();
@@ -234,9 +239,6 @@ public class FirebaseModel {
                 });
     }
 
-    public String getCurrentUserId() {
-        return mAuth.getCurrentUser().getUid();
-    }
 
 
     void addRecipe(Recipe recipe, Model.Listener<Void> listener) {
