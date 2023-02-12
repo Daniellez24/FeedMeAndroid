@@ -50,23 +50,23 @@ public class Model {
         firebaseModel.signoutUser(callback);
     }
 
-    public void editUser(String name, String Image, Listener<Void> callback){
+    public void editUser(String name, String Image, Listener<Void> callback) {
         firebaseModel.editUser(name, Image, callback);
     }
 
-    public void editRecipe(Recipe recipe, Listener<Void> listener){
+    public void editRecipe(Recipe recipe, Listener<Void> listener) {
         firebaseModel.editRecipe(recipe, listener);
     }
 
-    public void deleteRecipe(Recipe recipe, Listener<Void> listener){
+    public void deleteRecipe(Recipe recipe, Listener<Void> listener) {
         firebaseModel.deleteRecipe(recipe, listener);
     }
 
-    public void getUserProfileData(Listener<User> listener){
+    public void getUserProfileData(Listener<User> listener) {
         firebaseModel.getUserProfileData(listener);
     }
 
-    public void getSelectedRecipeData(String recipeId ,Listener<Recipe> listener){
+    public void getSelectedRecipeData(String recipeId, Listener<Recipe> listener) {
         firebaseModel.getSelectedRecipeData(recipeId, listener);
     }
 
@@ -99,10 +99,17 @@ public class Model {
             public void onComplete(Object data) {
                 List<Recipe> usersRecipes = (List<Recipe>) data;
                 executor.execute(() -> {
-                    for (Recipe recipe : usersRecipes) {
-                        localDb.recipeDao().insertAll(recipe);
+                    localDb.beginTransaction();
+                    try {
+                        for (Recipe recipe : usersRecipes) {
+                            localDb.recipeDao().insertAll(recipe);
+                        }
+
+                        myRecipesList.postValue(usersRecipes);
+                        localDb.setTransactionSuccessful();
+                    } finally {
+                        localDb.endTransaction();
                     }
-                    myRecipesList.postValue(usersRecipes);
                 });
             }
         });
