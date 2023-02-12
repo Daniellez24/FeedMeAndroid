@@ -50,47 +50,82 @@ public class Model {
         firebaseModel.signoutUser(callback);
     }
 
-    public String getCurrentUserId() {
-        return firebaseModel.getCurrentUserId();
-    }
-
-    public void editUser(String name, String Image, Listener<Void> callback){
+    public void editUser(String name, String Image, Listener<Void> callback) {
         firebaseModel.editUser(name, Image, callback);
     }
 
-    public void getUserProfileData(Listener<User> listener){
-        firebaseModel.getUserProfileData(listener);
-    }
-
-    public void editRecipe(Recipe recipe, Listener<Void> listener){
+    public void editRecipe(Recipe recipe, Listener<Void> listener) {
         firebaseModel.editRecipe(recipe, listener);
     }
 
-    public void deleteRecipe(Recipe recipe, Listener<Void> listener){
+    public void deleteRecipe(Recipe recipe, Listener<Void> listener) {
         firebaseModel.deleteRecipe(recipe, listener);
     }
 
-    public void addRecipe(Recipe recipe, Listener<Void> listener) {
-        firebaseModel.addRecipe(recipe, listener);
+    public void getUserProfileData(Listener<User> listener) {
+        firebaseModel.getUserProfileData(listener);
     }
 
-    public void getSelectedRecipeData(String recipeId ,Listener<Recipe> listener){
+    public void getSelectedRecipeData(String recipeId, Listener<Recipe> listener) {
         firebaseModel.getSelectedRecipeData(recipeId, listener);
     }
 
-    private MutableLiveData<List<Recipe>> recipeList = new MutableLiveData<>();
+    public enum LoadingState {
+        LOADING,
+        NOT_LOADING
+    }
 
+    final public MutableLiveData<LoadingState> EventMyRecipesLoadingState = new MutableLiveData<LoadingState>(LoadingState.NOT_LOADING);
+    final public MutableLiveData<LoadingState> EventFeedLoadingState = new MutableLiveData<LoadingState>(LoadingState.NOT_LOADING);
     private MutableLiveData<List<Recipe>> myRecipesList = new MutableLiveData<>();
 
     public LiveData<List<Recipe>> getMyRecipesList() {
         myRecipesList.setValue(
-                localDb.usersRecipeDao().getAll().getValue()
+                localDb.recipeDao().getRecipeByUserId(firebaseModel.getCurrentUserId()).getValue()
         );
         if (myRecipesList == null || myRecipesList.getValue() == null) {
             refreshMyRecipesList();
         }
         return myRecipesList;
     }
+
+    public void addRecipe(Recipe recipe, Listener<Void> listener) {
+        firebaseModel.addRecipe(recipe, listener);
+    }
+
+    public void refreshMyRecipesList() {
+        String userId = getCurrentUserId();
+        firebaseModel.getRecipesByUserId(userId, new Listener() {
+            @Override
+            public void onComplete(Object data) {
+                List<Recipe> usersRecipes = (List<Recipe>) data;
+                executor.execute(() -> {
+                    localDb.beginTransaction();
+                    try {
+                        for (Recipe recipe : usersRecipes) {
+                            localDb.recipeDao().insertAll(recipe);
+                        }
+
+                        myRecipesList.postValue(usersRecipes);
+                        localDb.setTransactionSuccessful();
+                    } finally {
+                        localDb.endTransaction();
+                    }
+                });
+            }
+        });
+    }
+
+    public String getCurrentUserId() {
+        return firebaseModel.getCurrentUserId();
+    }
+
+    public void uploadImage(String name, Bitmap bitmap, Listener<String> listener) {
+        firebaseModel.uploadImage(name, bitmap, listener);
+    }
+
+
+    private MutableLiveData<List<Recipe>> recipeList = new MutableLiveData<>();
 
     public LiveData<List<Recipe>> getFeedItems() {
         recipeList.setValue(localDb.recipeDao().getAll().getValue());
@@ -102,20 +137,7 @@ public class Model {
     }
 
 
-    public void uploadImage(String name, Bitmap bitmap, Listener<String> listener) {
-        firebaseModel.uploadImage(name, bitmap, listener);
-    }
-
-    public enum LoadingState {
-        LOADING,
-        NOT_LOADING
-    }
-
-    final public MutableLiveData<LoadingState> EventMyRecipesLoadingState = new MutableLiveData<LoadingState>(LoadingState.NOT_LOADING);
-    final public MutableLiveData<LoadingState> EventFeedLoadingState = new MutableLiveData<LoadingState>(LoadingState.NOT_LOADING);
-
     public void refreshRecipes() {
-        EventFeedLoadingState.setValue(LoadingState.LOADING);
         firebaseModel.getFeedItems(new Listener() {
             @Override
             public void onComplete(Object data) {
@@ -125,25 +147,6 @@ public class Model {
                         localDb.recipeDao().insertAll(r);
                     }
                     recipeList.postValue(list);
-                    EventFeedLoadingState.postValue(LoadingState.NOT_LOADING);
-                });
-            }
-        });
-    }
-
-    public void refreshMyRecipesList() {
-        EventMyRecipesLoadingState.setValue(LoadingState.LOADING);
-        String userId = firebaseModel.getCurrentUserId();
-        firebaseModel.getRecipesByUserId(userId, new Listener() {
-            @Override
-            public void onComplete(Object data) {
-                List<Recipe> usersRecipes = (List<Recipe>) data;
-                executor.execute(() -> {
-                    for (Recipe recipe : usersRecipes) {
-                        localDb.usersRecipeDao().insertAll(recipe);
-                    }
-                    myRecipesList.postValue(usersRecipes);
-                    EventMyRecipesLoadingState.postValue(LoadingState.NOT_LOADING);
                 });
             }
         });
