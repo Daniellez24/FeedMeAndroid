@@ -3,6 +3,7 @@ package com.example.feedme.adapters;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,6 +18,15 @@ public class MyRecipesRecyclerAdapter extends RecyclerView.Adapter<MyRecipeViewH
 
     LayoutInflater inflater;
     List<Recipe> data;
+    OnItemClickListener listener;
+
+    public static interface OnItemClickListener{
+        void onItemClick(int pos);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener){
+        this.listener = listener;
+    }
 
     public void setData(List<Recipe> data){
         this.data = data;
@@ -31,8 +41,8 @@ public class MyRecipesRecyclerAdapter extends RecyclerView.Adapter<MyRecipeViewH
     @NonNull
     @Override
     public MyRecipeViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = inflater.inflate(R.layout.my_recipes_item, parent, false);
-        return new MyRecipeViewHolder(view, data);
+        View view = inflater.inflate(R.layout.feed_item, parent, false);
+        return new MyRecipeViewHolder(view, listener, data);
     }
 
     @Override

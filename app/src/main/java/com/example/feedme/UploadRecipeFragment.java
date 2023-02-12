@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
 import android.os.SystemClock;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -86,7 +87,7 @@ public class UploadRecipeFragment extends Fragment {
             String title = recipeTitle.getText().toString();
             String body = recipeBody.getText().toString();
             String userId = Model.instance().getCurrentUserId();
-            Recipe recipe = new Recipe(userId, "", title, body);
+            Recipe recipe = new Recipe(userId, "", title, body, "");
 
             if(isImageSelected){
                 recipeImage.setDrawingCacheEnabled(true);
@@ -98,11 +99,15 @@ public class UploadRecipeFragment extends Fragment {
                         recipe.setRecipeImage(url);
                     }
                     Model.instance().addRecipe(recipe, (unused) -> {
+                        Model.instance().refreshRecipes();
+                        Model.instance().refreshMyRecipesList();
                         Navigation.findNavController(v).popBackStack();
                     });
                 });
             } else{ // save recipe without image (image not selected)
                 Model.instance().addRecipe(recipe, (unused) -> {
+                    Model.instance().refreshRecipes();
+                    Model.instance().refreshMyRecipesList();
                     Navigation.findNavController(v).popBackStack();
                 });
             }
