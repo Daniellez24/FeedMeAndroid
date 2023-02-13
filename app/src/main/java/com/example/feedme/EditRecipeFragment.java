@@ -1,6 +1,7 @@
 package com.example.feedme;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
@@ -9,9 +10,12 @@ import android.os.Bundle;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +25,7 @@ import android.widget.Toast;
 import com.example.feedme.databinding.FragmentEditRecipeBinding;
 import com.example.feedme.models.Model;
 import com.example.feedme.models.Recipe;
+import com.google.android.material.snackbar.Snackbar;
 import com.squareup.picasso.Picasso;
 
 public class EditRecipeFragment extends Fragment {
@@ -31,6 +36,8 @@ public class EditRecipeFragment extends Fragment {
     ActivityResultLauncher<Void> cameraLauncher;
     ActivityResultLauncher<String> galleryLauncher;
     Boolean isImageSelected = false;
+
+    private Toast deleteToast;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -115,7 +122,8 @@ public class EditRecipeFragment extends Fragment {
                 Navigation.findNavController(v).popBackStack();
                 Model.instance().refreshRecipes();
                 Model.instance().refreshMyRecipesList();
-                Toast.makeText(getContext(), "Recipe deleted successfully!", Toast.LENGTH_SHORT).show();
+
+                Snackbar.make(view, "Recipe deleted successfully!", Snackbar.LENGTH_SHORT).show();
             });
         });
 
@@ -129,4 +137,5 @@ public class EditRecipeFragment extends Fragment {
 
         return view;
     }
+
 }

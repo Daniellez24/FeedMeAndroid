@@ -97,7 +97,7 @@
             android:id="@+id/editRecipeFragment_update_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="80dp"
+            android:layout_marginTop="40dp"
             android:text="Update Recipe"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
