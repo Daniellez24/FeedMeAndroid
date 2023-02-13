@@ -1,102 +1,110 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".UploadRecipeFragment"
-    android:background="#A0D9F3"
-    tools:layout_editor_absoluteX="-115dp"
-    tools:layout_editor_absoluteY="-187dp">
+    android:background="#A0D9F3">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#A0D9F3"
+        tools:context=".UploadRecipeFragment"
+        tools:layout_editor_absoluteX="-115dp"
+        tools:layout_editor_absoluteY="-187dp">
 
 
-    <ImageView
-        android:id="@+id/uploadFragment_recepie_img"
-        android:layout_width="0dp"
-        android:layout_height="165dp"
-        android:scaleType="fitCenter"
-        android:src="@android:mipmap/sym_def_app_icon"
-        app:layout_constraintBottom_toTopOf="@+id/uploadFragment_title_et"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <ImageView
+            android:id="@+id/uploadFragment_recepie_img"
+            android:layout_width="0dp"
+            android:layout_height="165dp"
+            android:scaleType="fitCenter"
+            android:src="@android:mipmap/sym_def_app_icon"
+            app:layout_constraintBottom_toTopOf="@+id/uploadFragment_title_et"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/uploadFragment_recepie_et"
-        android:layout_width="wrap_content"
-        android:layout_height="200dp"
-        android:ems="10"
-        android:gravity="top"
-        android:inputType="text|textMultiLine"
-        android:text="Recipe"
-        app:layout_constraintBottom_toTopOf="@+id/uploadFragment_upload_btn"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/uploadFragment_recepie_tv"
-        app:layout_constraintTop_toBottomOf="@+id/uploadFragment_title_et" />
+        <EditText
+            android:id="@+id/uploadFragment_recepie_et"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:ems="10"
+            android:gravity="top"
+            android:inputType="textMultiLine"
+            android:text="Recipe"
+            app:layout_constraintBottom_toTopOf="@+id/uploadFragment_upload_btn"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/uploadFragment_recepie_tv"
+            app:layout_constraintTop_toBottomOf="@+id/uploadFragment_title_et" />
 
-    <EditText
-        android:id="@+id/uploadFragment_title_et"
-        android:layout_width="wrap_content"
-        android:layout_height="80dp"
-        android:ems="10"
-        android:gravity="top"
-        android:inputType="textPersonName"
-        android:text="Title"
-        app:layout_constraintBottom_toTopOf="@+id/uploadFragment_recepie_et"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/uploadFragment_title_tv"
-        app:layout_constraintTop_toBottomOf="@+id/uploadFragment_recepie_img" />
+        <EditText
+            android:id="@+id/uploadFragment_title_et"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:gravity="top"
+            android:inputType="textPersonName"
+            android:text="Title"
+            app:layout_constraintBottom_toTopOf="@+id/uploadFragment_recepie_et"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/uploadFragment_title_tv"
+            app:layout_constraintTop_toBottomOf="@+id/uploadFragment_recepie_img" />
 
-    <TextView
-        android:id="@+id/uploadFragment_title_tv"
-        android:layout_width="100dp"
-        android:layout_height="0dp"
-        android:text="Title"
-        app:layout_constraintBottom_toBottomOf="@+id/uploadFragment_title_et"
-        app:layout_constraintEnd_toStartOf="@+id/uploadFragment_title_et"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/uploadFragment_title_et" />
+        <TextView
+            android:id="@+id/uploadFragment_title_tv"
+            android:layout_width="100dp"
+            android:layout_height="0dp"
+            android:text="Title"
+            app:layout_constraintBottom_toBottomOf="@+id/uploadFragment_title_et"
+            app:layout_constraintEnd_toStartOf="@+id/uploadFragment_title_et"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/uploadFragment_title_et" />
 
-    <TextView
-        android:id="@+id/uploadFragment_recepie_tv"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:text="Recipe"
-        app:layout_constraintEnd_toEndOf="@+id/uploadFragment_title_tv"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="@+id/uploadFragment_title_tv"
-        app:layout_constraintTop_toTopOf="@+id/uploadFragment_recepie_et" />
+        <TextView
+            android:id="@+id/uploadFragment_recepie_tv"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:text="Recipe"
+            app:layout_constraintEnd_toEndOf="@+id/uploadFragment_title_tv"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="@+id/uploadFragment_title_tv"
+            app:layout_constraintTop_toTopOf="@+id/uploadFragment_recepie_et" />
 
-    <Button
-        android:id="@+id/uploadFragment_upload_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Upload recipe"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/uploadFragment_recepie_et" />
+        <Button
+            android:id="@+id/uploadFragment_upload_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Upload recipe"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/uploadFragment_recepie_et" />
 
-    <ImageButton
-        android:id="@+id/uploadFragment_gallery_btn"
-        android:layout_width="62dp"
-        android:layout_height="43dp"
-        android:layout_marginStart="5dp"
-        android:src="@drawable/ic_baseline_image_search_24"
-        app:layout_constraintBottom_toBottomOf="@+id/uploadFragment_recepie_img"
-        app:layout_constraintStart_toStartOf="parent" />
+        <ImageButton
+            android:id="@+id/uploadFragment_gallery_btn"
+            android:layout_width="62dp"
+            android:layout_height="43dp"
+            android:layout_marginStart="5dp"
+            android:src="@drawable/ic_baseline_image_search_24"
+            app:layout_constraintBottom_toBottomOf="@+id/uploadFragment_recepie_img"
+            app:layout_constraintStart_toStartOf="parent" />
 
-    <ImageButton
-        android:id="@+id/uploadFragment_camera_btn"
-        android:layout_width="54dp"
-        android:layout_height="43dp"
-        android:layout_marginEnd="5dp"
-        android:src="@drawable/ic_baseline_photo_camera_24"
-        app:layout_constraintBottom_toBottomOf="@+id/uploadFragment_recepie_img"
-        app:layout_constraintEnd_toEndOf="@+id/uploadFragment_recepie_img" />
+        <ImageButton
+            android:id="@+id/uploadFragment_camera_btn"
+            android:layout_width="54dp"
+            android:layout_height="43dp"
+            android:layout_marginEnd="5dp"
+            android:src="@drawable/ic_baseline_photo_camera_24"
+            app:layout_constraintBottom_toBottomOf="@+id/uploadFragment_recepie_img"
+            app:layout_constraintEnd_toEndOf="@+id/uploadFragment_recepie_img" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

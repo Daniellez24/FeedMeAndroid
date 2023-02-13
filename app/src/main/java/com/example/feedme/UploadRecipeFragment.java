@@ -14,16 +14,19 @@ import androidx.navigation.Navigation;
 
 import android.os.SystemClock;
 import android.view.Display;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import com.example.feedme.models.Model;
 import com.example.feedme.models.Recipe;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.type.DateTime;
 
 import java.sql.Time;
@@ -111,6 +114,13 @@ public class UploadRecipeFragment extends Fragment {
                     Navigation.findNavController(v).popBackStack();
                 });
             }
+
+            Snackbar message = Snackbar.make(view, "Recipe uploaded!", Snackbar.LENGTH_SHORT);
+            View snackbarView = message.getView();
+            FrameLayout.LayoutParams params = (FrameLayout.LayoutParams)snackbarView.getLayoutParams();
+            params.gravity = Gravity.TOP;
+            snackbarView.setLayoutParams(params);
+            message.show();
 
         });
 
