@@ -14,11 +14,13 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
 import android.view.Display;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -119,7 +121,12 @@ public class ProfileFragment extends Fragment {
                 });
             }
 
-            Snackbar.make(view, "Profile details updated!", Snackbar.LENGTH_SHORT).show();
+            Snackbar message = Snackbar.make(view, "Profile details updated!", Snackbar.LENGTH_SHORT);
+            View snackbarView = message.getView();
+            FrameLayout.LayoutParams params = (FrameLayout.LayoutParams)snackbarView.getLayoutParams();
+            params.gravity = Gravity.TOP;
+            snackbarView.setLayoutParams(params);
+            message.show();
         }));
 
         cameraButton.setOnClickListener((v) -> {

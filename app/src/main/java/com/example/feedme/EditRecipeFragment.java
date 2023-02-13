@@ -17,9 +17,11 @@ import androidx.navigation.Navigation;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.example.feedme.databinding.FragmentEditRecipeBinding;
@@ -115,7 +117,12 @@ public class EditRecipeFragment extends Fragment {
                     Model.instance().refreshMyRecipesList();
                 });
             }
-            Snackbar.make(view, "recipe updated!", Snackbar.LENGTH_SHORT).show();
+            Snackbar updateMessage = Snackbar.make(view, "recipe updated!", Snackbar.LENGTH_SHORT);
+            View snackbarView = updateMessage.getView();
+            FrameLayout.LayoutParams params = (FrameLayout.LayoutParams)snackbarView.getLayoutParams();
+            params.gravity = Gravity.TOP;
+            snackbarView.setLayoutParams(params);
+            updateMessage.show();
         });
 
         binding.editRecipeFragmentDeleteBtn.setOnClickListener((v) -> {
@@ -124,7 +131,12 @@ public class EditRecipeFragment extends Fragment {
                 Model.instance().refreshRecipes();
                 Model.instance().refreshMyRecipesList();
 
-                Snackbar.make(view, "Recipe deleted successfully!", Snackbar.LENGTH_SHORT).show();
+                Snackbar deleteMessage = Snackbar.make(view, "Recipe deleted!", Snackbar.LENGTH_SHORT);
+                View snackbarView = deleteMessage.getView();
+                FrameLayout.LayoutParams params = (FrameLayout.LayoutParams)snackbarView.getLayoutParams();
+                params.gravity = Gravity.TOP;
+                snackbarView.setLayoutParams(params);
+                deleteMessage.show();
             });
         });
 
