@@ -24,6 +24,7 @@ import android.widget.ImageView;
 
 import com.example.feedme.models.Model;
 import com.example.feedme.models.Recipe;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.type.DateTime;
 
 import java.sql.Time;
@@ -111,6 +112,8 @@ public class UploadRecipeFragment extends Fragment {
                     Navigation.findNavController(v).popBackStack();
                 });
             }
+
+            Snackbar.make(view, "Recipe uploaded!", Snackbar.LENGTH_SHORT).show();
 
         });
 

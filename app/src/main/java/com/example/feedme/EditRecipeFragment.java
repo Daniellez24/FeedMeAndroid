@@ -115,6 +115,7 @@ public class EditRecipeFragment extends Fragment {
                     Model.instance().refreshMyRecipesList();
                 });
             }
+            Snackbar.make(view, "recipe updated!", Snackbar.LENGTH_SHORT).show();
         });
 
         binding.editRecipeFragmentDeleteBtn.setOnClickListener((v) -> {

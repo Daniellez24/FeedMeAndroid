@@ -24,6 +24,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.example.feedme.models.Model;
 import com.example.feedme.models.User;
+import com.google.android.material.snackbar.Snackbar;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -118,7 +119,7 @@ public class ProfileFragment extends Fragment {
                 });
             }
 
-
+            Snackbar.make(view, "Profile details updated!", Snackbar.LENGTH_SHORT).show();
         }));
 
         cameraButton.setOnClickListener((v) -> {
