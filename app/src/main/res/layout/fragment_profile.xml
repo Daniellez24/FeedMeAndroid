@@ -1,82 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#A0D9F3"
-    tools:context=".ProfileFragment">
+    android:background="#A0D9F3">
 
-    <ImageView
-        android:id="@+id/profileFragment_user_img"
-        android:layout_width="250dp"
-        android:layout_height="250dp"
-        android:src="@android:mipmap/sym_def_app_icon"
-        app:layout_constraintBottom_toTopOf="@+id/profileFragment_userName_et"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/profileFragment_title_tv" />
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#A0D9F3"
+        tools:context=".ProfileFragment">
 
-    <EditText
-        android:id="@+id/profileFragment_userName_et"
-        android:layout_width="wrap_content"
-        android:layout_height="70dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="Name"
-        app:layout_constraintBottom_toTopOf="@+id/profileFragment_save_btn"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/profileFragment_user_img" />
+        <ImageView
+            android:id="@+id/profileFragment_user_img"
+            android:layout_width="250dp"
+            android:layout_height="250dp"
+            android:src="@android:mipmap/sym_def_app_icon"
+            app:layout_constraintBottom_toTopOf="@+id/profileFragment_userName_et"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/profileFragment_title_tv" />
 
-    <Button
-        android:id="@+id/profileFragment_logout_btn"
-        android:layout_width="300dp"
-        android:layout_height="50dp"
-        android:text="Logout"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/profileFragment_save_btn" />
+        <EditText
+            android:id="@+id/profileFragment_userName_et"
+            android:layout_width="wrap_content"
+            android:layout_height="70dp"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:text="Name"
+            app:layout_constraintBottom_toTopOf="@+id/profileFragment_save_btn"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/profileFragment_user_img" />
 
-    <Button
-        android:id="@+id/profileFragment_save_btn"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:text="Save"
-        app:layout_constraintBottom_toTopOf="@+id/profileFragment_logout_btn"
-        app:layout_constraintEnd_toEndOf="@+id/profileFragment_logout_btn"
-        app:layout_constraintStart_toStartOf="@+id/profileFragment_logout_btn"
-        app:layout_constraintTop_toBottomOf="@+id/profileFragment_userName_et" />
+        <Button
+            android:id="@+id/profileFragment_logout_btn"
+            android:layout_width="300dp"
+            android:layout_height="50dp"
+            android:text="Logout"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/profileFragment_save_btn" />
 
-    <TextView
-        android:id="@+id/profileFragment_title_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Profile"
-        android:textAlignment="center"
-        android:textSize="48sp"
-        app:layout_constraintBottom_toTopOf="@+id/profileFragment_user_img"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <Button
+            android:id="@+id/profileFragment_save_btn"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:text="Save"
+            app:layout_constraintBottom_toTopOf="@+id/profileFragment_logout_btn"
+            app:layout_constraintEnd_toEndOf="@+id/profileFragment_logout_btn"
+            app:layout_constraintStart_toStartOf="@+id/profileFragment_logout_btn"
+            app:layout_constraintTop_toBottomOf="@+id/profileFragment_userName_et" />
 
-    <ImageButton
-        android:id="@+id/profileFragment_gallery_Ib"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:src="@drawable/ic_baseline_image_search_24"
-        app:layout_constraintBottom_toBottomOf="@+id/profileFragment_user_img"
-        app:layout_constraintStart_toStartOf="parent" />
+        <TextView
+            android:id="@+id/profileFragment_title_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Profile"
+            android:textAlignment="center"
+            android:textSize="48sp"
+            app:layout_constraintBottom_toTopOf="@+id/profileFragment_user_img"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageButton
-        android:id="@+id/profileFragment_camera_Ib"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="10dp"
-        android:src="@drawable/ic_baseline_photo_camera_24"
-        app:layout_constraintBottom_toBottomOf="@+id/profileFragment_user_img"
-        app:layout_constraintEnd_toEndOf="parent" />
+        <ImageButton
+            android:id="@+id/profileFragment_gallery_Ib"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:src="@drawable/ic_baseline_image_search_24"
+            app:layout_constraintBottom_toBottomOf="@+id/profileFragment_user_img"
+            app:layout_constraintStart_toStartOf="parent" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <ImageButton
+            android:id="@+id/profileFragment_camera_Ib"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:src="@drawable/ic_baseline_photo_camera_24"
+            app:layout_constraintBottom_toBottomOf="@+id/profileFragment_user_img"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
